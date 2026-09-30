@@ -276,12 +276,80 @@
     border-radius: 14px;
     transition: all 0.2s;
     box-shadow: 0 0 40px rgba(0,255,178,0.3);
+    width: 100%;
+    margin-top: 8px;
   }
   .spin-btn:hover:not(:disabled) { transform: translateY(-2px); }
   .spin-btn:disabled { opacity: 0.4; cursor: not-allowed; }
   .bet-info {
-    color: var(--muted); font-size: 12px;
+    color: var(--muted); font-size: 11px;
     margin-top: 16px; letter-spacing: 1.5px; font-weight: 600;
+  }
+
+  /* ─── BET CONTROL ─── */
+  .bet-control {
+    margin-bottom: 18px;
+    padding: 16px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    text-align: left;
+  }
+  .bet-control > label {
+    display: block;
+    font-size: 11px; font-weight: 700;
+    color: var(--muted); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .bet-row {
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 10px;
+  }
+  .bet-step {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--green);
+    font-size: 22px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .bet-step:hover { background: rgba(0,255,178,0.1); border-color: var(--green); }
+  .bet-input {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 20px; font-weight: 800;
+    text-align: center;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,255,178,0.3);
+    border-radius: 12px;
+    color: var(--green);
+    outline: none;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+  }
+  .bet-input:focus { border-color: var(--green); }
+  .bet-quick {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+  }
+  .bet-quick button {
+    padding: 8px 4px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 11px; font-weight: 700;
+    transition: all 0.15s;
+  }
+  .bet-quick button:hover {
+    color: var(--green);
+    border-color: rgba(0,255,178,0.3);
+    background: rgba(0,255,178,0.05);
   }
 
   /* ─── REGISTER ─── */
@@ -360,9 +428,9 @@
   }
   .bet-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
   .bet-btn {
-    flex: 1; padding: 18px;
+    flex: 1; padding: 18px 8px;
     border-radius: 14px;
-    font-size: 15px; font-weight: 800;
+    font-size: 14px; font-weight: 800;
     border: 2px solid;
     transition: all 0.15s;
     letter-spacing: 0.5px;
@@ -436,7 +504,7 @@
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
     color: var(--muted);
-    font-weight: 700; font-size: 13px;
+    font-weight: 700; font-size: 12px;
     transition: all 0.15s;
   }
   .dice-choice.active {
@@ -446,275 +514,6 @@
 </style>
 </head>
 <body>
- <!-- ═══ NAV ═══ -->
-<nav class="nav">
-  <div class="logo" id="logoBtn" onclick="logoClick()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-linejoin="round">
-      <defs>
-        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#00ffb2"/>
-          <stop offset="100%" stop-color="#7c3aed"/>
-        </linearGradient>
-      </defs>
-      <path d="M4 4h16L4 20h16"/>
-    </svg>
-    Zuno <span class="logo-badge">07</span>
-  </div>
-  <div class="nav-right">
-    <div class="balance-pill">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="6" width="18" height="13" rx="2"/>
-        <path d="M3 10h18M16 14h2"/>
-      </svg>
-      <b id="navBalance">5 000</b>
-      <span style="color:var(--muted);font-weight:500">₽</span>
-    </div>
-    <button class="icon-btn" id="soundToggle" onclick="toggleSound()" title="Звук">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-        <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
-        <path d="M19 5a9 9 0 0 1 0 14"/>
-      </svg>
-    </button>
-    <button class="icon-btn" onclick="go('profile')" title="Профиль">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="8" r="4"/>
-        <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
-      </svg>
-    </button>
-    <button class="icon-btn" onclick="go('withdraw')" title="Вывод">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 19V5M5 12l7-7 7 7"/>
-      </svg>
-    </button>
-  </div>
-</nav>
-
-<!-- ═══ SCREEN: HOME ═══ -->
-<div class="screen active" id="screen-home">
-  <div class="container">
-    <section class="hero">
-      <h1>Играй. Побеждай.<br><span class="grad">Выводи средства.</span></h1>
-      <p>Более 200 игр, моментальные выплаты, поддержка 24/7. Бонус 5 000 ₽ за регистрацию.</p>
-      <button class="cta" id="homeCta" onclick="go('register')">
-        <span id="homeCtaText">Начать играть</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M13 6l6 6-6 6"/>
-        </svg>
-      </button>
-    </section>
-
-    <div class="jackpot">
-      <div class="jackpot-label">Текущий джекпот</div>
-      <div class="jackpot-amount" id="jackpot">1 247 832 ₽</div>
-    </div>
-
-    <section class="features">
-      <div class="feature">
-        <div class="feature-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="6" width="18" height="13" rx="2"/>
-            <path d="M3 10h18M16 14h2"/>
-          </svg>
-        </div>
-        <h3>Мгновенный вывод</h3>
-        <p>На карту или телефон за 5 минут</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
-            <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7l3-7z"/>
-          </svg>
-        </div>
-        <h3>Щедрые бонусы</h3>
-        <p>Кэшбэк, фриспины, турниры каждую неделю</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
-          </svg>
-        </div>
-        <h3>Поддержка 24/7</h3>
-        <p>Онлайн-чат и Telegram в любое время</p>
-      </div>
-    </section>
-  </div>
-</div>
-
-<!-- ═══ SCREEN: REGISTER ═══ -->
-<div class="screen" id="screen-register">
-  <div class="container">
-    <div class="register-wrap">
-      <div class="register-card">
-        <div class="page-title" style="font-size:24px;text-align:center">Регистрация</div>
-        <div class="page-sub" style="text-align:center">Создайте аккаунт за 10 секунд</div>
-
-        <div class="register-bonus">
-          <div class="lbl">Приветственный бонус</div>
-          <div class="val">5 000 ₽</div>
-          <div class="hint">Зачисляется сразу после регистрации</div>
-        </div>
-
-        <label>Имя</label>
-        <input type="text" id="regName" placeholder="Ваше имя">
-
-        <label>Телефон</label>
-        <input type="tel" id="regPhone" placeholder="+7 (___) ___-__-__">
-
-        <label>E-mail</label>
-        <input type="text" id="regEmail" placeholder="you@mail.ru">
-
-        <button class="submit-btn" onclick="submitRegister()">Создать аккаунт</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ SCREEN: PROFILE ═══ -->
-<div class="screen" id="screen-profile">
-  <div class="container">
-    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад</button>
-    <div class="form-card">
-      <div class="page-title" style="font-size:22px">Профиль</div>
-      <div class="page-sub">Ваши данные и статус аккаунта</div>
-
-      <div class="profile-grid">
-        <div class="profile-row">
-          <span>ID аккаунта</span>
-          <b id="profId" class="mono" style="letter-spacing:2px;color:var(--green)">—</b>
-        </div>
-        <div class="profile-row">
-          <span>Статус</span>
-          <b id="profStatus">—</b>
-        </div>
-        <div class="profile-row">
-          <span>Имя</span>
-          <b id="profName">—</b>
-        </div>
-        <div class="profile-row">
-          <span>Телефон</span>
-          <b id="profPhone">—</b>
-        </div>
-        <div class="profile-row">
-          <span>Баланс</span>
-          <b id="profBalance" style="color:var(--green)">—</b>
-        </div>
-      </div>
-
-      <div id="noAccount" class="hidden">
-        <div class="error-box" style="margin-bottom:20px">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 8v5M12 16h.01"/>
-          </svg>
-          <div>Аккаунт не создан. Пройдите регистрацию.</div>
-        </div>
-        <button class="submit-btn" onclick="go('register')">Зарегистрироваться</button>
-      </div>
-
-      <div class="history-section">
-        <div class="history-title">
-          Активные выводы
-          <span class="history-count" id="activeCount">0</span>
-        </div>
-        <div id="activeWithdraws">
-          <div class="history-empty">Нет активных заявок</div>
-        </div>
-      </div>
-
-      <div class="history-section">
-        <div class="history-title">
-          История выводов
-          <span class="history-count" id="historyCount">0</span>
-        </div>
-        <div id="historyWithdraws">
-          <div class="history-empty">Пока нет завершённых выводов</div>
-        </div>
-      </div>
-
-      <p id="accountInfo" class="profile-hint">
-        Сообщите этот ID в поддержку для прохождения верификации
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ SCREEN: LOBBY ═══ -->
-<div class="screen" id="screen-lobby">
-  <div class="container">
-    <div class="page-title">Игры</div>
-    <div class="page-sub">Выберите игру и начните выигрывать прямо сейчас</div>
-
-    <div class="game-grid">
-      <button class="game-card" onclick="go('slots')">
-        <div class="game-card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="3"/>
-            <path d="M9 8v8M15 8v8"/>
-          </svg>
-        </div>
-        <span class="hot">HOT</span>
-        <h3>Слоты</h3>
-        <p>Классические автоматы, выигрыш до x20</p>
-      </button>
-
-      <button class="game-card" onclick="go('roulette')">
-        <div class="game-card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 3v9l6 3"/>
-          </svg>
-        </div>
-        <h3>Рулетка</h3>
-        <p>Красное или чёрное — удвой ставку</p>
-      </button>
-
-      <button class="game-card" onclick="go('crash')">
-        <div class="game-card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 17l6-6 4 4 8-8"/>
-            <path d="M15 7h6v6"/>
-          </svg>
-        </div>
-        <h3>Crash</h3>
-        <p>Успей забрать до взрыва</p>
-      </button>
-
-      <button class="game-card" onclick="go('dice')">
-        <div class="game-card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="18" height="18" rx="3"/>
-            <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
-            <circle cx="16" cy="8" r="1.5" fill="currentColor"/>
-            <circle cx="8" cy="16" r="1.5" fill="currentColor"/>
-            <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
-            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-          </svg>
-        </div>
-        <h3>Кости</h3>
-        <p>Угадай сумму — выигрыш x6</p>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ SCREEN: SLOTS ═══ -->
-<div class="screen" id="screen-slots">
-  <div class="container">
-    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад в лобби</button>
-    <div class="machine">
-      <div class="reels">
-        <div class="reel" id="r1"></div>
-        <div class="reel" id="r2"></div>
-        <div class="reel" id="r3"></div>
-      </div>
-      <button class="spin-btn" id="spinBtn" onclick="spinSlots()">КРУТИТЬ · 100 ₽</button>
-      <div class="bet-info">СТАВКА 100 ₽ · МАКС ВЫИГРЫШ x20</div>
-    </div>
-  </div>
-     </div>
  <!-- ═══ SCREEN: ROULETTE ═══ -->
 <div class="screen" id="screen-roulette">
   <div class="container">
@@ -724,11 +523,29 @@
         <div class="roulette-pointer"></div>
         <div class="roulette-wheel" id="rouletteWheel"></div>
       </div>
+
+      <div class="bet-control">
+        <label>Ваша ставка</label>
+        <div class="bet-row">
+          <button class="bet-step" onclick="changeBet(-100)">−</button>
+          <input type="text" id="betInputR" class="bet-input" value="100" inputmode="numeric" oninput="onBetInputR()">
+          <button class="bet-step" onclick="changeBet(100)">+</button>
+        </div>
+        <div class="bet-quick">
+          <button onclick="setBet(100)">100</button>
+          <button onclick="setBet(500)">500</button>
+          <button onclick="setBet(1000)">1 000</button>
+          <button onclick="setBet(10000)">10 000</button>
+          <button onclick="setBet(100000)">100 000</button>
+          <button onclick="setBet(1000000)">MAX</button>
+        </div>
+      </div>
+
       <div class="bet-buttons">
         <button class="bet-btn red" id="betRed" onclick="spinRoulette('red')">КРАСНОЕ · x2</button>
         <button class="bet-btn black" id="betBlack" onclick="spinRoulette('black')">ЧЁРНОЕ · x2</button>
       </div>
-      <div class="bet-info">СТАВКА 100 ₽ · 18 КРАСНЫХ · 18 ЧЁРНЫХ · 2 ЗЕРОВЫХ</div>
+      <div class="bet-info">18 КРАСНЫХ · 18 ЧЁРНЫХ · 2 ЗЕРОВЫХ</div>
     </div>
   </div>
 </div>
@@ -742,11 +559,29 @@
         <canvas id="crashCanvas"></canvas>
         <div class="crash-multiplier" id="crashMult">1.00x</div>
       </div>
+
+      <div class="bet-control">
+        <label>Ваша ставка</label>
+        <div class="bet-row">
+          <button class="bet-step" onclick="changeBet(-100)">−</button>
+          <input type="text" id="betInputC" class="bet-input" value="100" inputmode="numeric" oninput="onBetInputC()">
+          <button class="bet-step" onclick="changeBet(100)">+</button>
+        </div>
+        <div class="bet-quick">
+          <button onclick="setBet(100)">100</button>
+          <button onclick="setBet(500)">500</button>
+          <button onclick="setBet(1000)">1 000</button>
+          <button onclick="setBet(10000)">10 000</button>
+          <button onclick="setBet(100000)">100 000</button>
+          <button onclick="setBet(1000000)">MAX</button>
+        </div>
+      </div>
+
       <div class="crash-controls">
-        <button class="submit-btn" id="crashStart" onclick="startCrash()">СТАВКА 100 ₽</button>
+        <button class="submit-btn" id="crashStart" onclick="startCrash()">СТАРТ</button>
         <button class="submit-btn hidden" id="crashCash" onclick="cashOutCrash()" style="background:linear-gradient(90deg,#00ffb2,#7c3aed);color:#fff">ЗАБРАТЬ</button>
       </div>
-      <div class="bet-info" id="crashInfo">СТАВКА 100 ₽ · ЗАБЕРИ ДО КРАША</div>
+      <div class="bet-info" id="crashInfo">ЗАБЕРИ ДО КРАША</div>
     </div>
   </div>
 </div>
@@ -760,16 +595,33 @@
         <div class="die" id="die1"></div>
         <div class="die" id="die2"></div>
       </div>
+
+      <div class="bet-control">
+        <label>Ваша ставка</label>
+        <div class="bet-row">
+          <button class="bet-step" onclick="changeBet(-100)">−</button>
+          <input type="text" id="betInputD" class="bet-input" value="100" inputmode="numeric" oninput="onBetInputD()">
+          <button class="bet-step" onclick="changeBet(100)">+</button>
+        </div>
+        <div class="bet-quick">
+          <button onclick="setBet(100)">100</button>
+          <button onclick="setBet(500)">500</button>
+          <button onclick="setBet(1000)">1 000</button>
+          <button onclick="setBet(10000)">10 000</button>
+          <button onclick="setBet(100000)">100 000</button>
+          <button onclick="setBet(1000000)">MAX</button>
+        </div>
+      </div>
+
       <div class="dice-choices">
         <button class="dice-choice active" data-bet="low" onclick="selectDice(this)">МЕНЬШЕ 7 · x2.2</button>
         <button class="dice-choice" data-bet="seven" onclick="selectDice(this)">РОВНО 7 · x6</button>
         <button class="dice-choice" data-bet="high" onclick="selectDice(this)">БОЛЬШЕ 7 · x2.2</button>
       </div>
-      <button class="submit-btn" id="diceRoll" onclick="rollDice()">БРОСИТЬ · 100 ₽</button>
+      <button class="submit-btn" id="diceRoll" onclick="rollDice()">БРОСИТЬ</button>
     </div>
   </div>
 </div>
-
 <!-- ═══ SCREEN: WITHDRAW ═══ -->
 <div class="screen" id="screen-withdraw">
   <div class="container">
@@ -870,8 +722,34 @@
             <circle cx="12" cy="12" r="9"/>
             <path d="M12 7v5l3 2"/>
           </svg>
-          Отложить
+          Отменить
         </button>
+      </div>
+
+      <div class="admin-section">
+        <div class="admin-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 8v4l3 2"/>
+          </svg>
+          Настройка шансов
+        </div>
+        <div class="chance-row">
+          <input type="range" id="chanceRange" min="0" max="100" step="1" value="35" oninput="onChanceInput()">
+          <div class="chance-value">
+            <input type="text" id="chanceValue" value="35" maxlength="3" inputmode="numeric" oninput="onChanceValueInput()">
+            <span>%</span>
+          </div>
+        </div>
+        <div class="chance-presets">
+          <button onclick="setChance(0)">0%</button>
+          <button onclick="setChance(15)">15%</button>
+          <button onclick="setChance(35)">35%</button>
+          <button onclick="setChance(50)">50%</button>
+          <button onclick="setChance(75)">75%</button>
+          <button onclick="setChance(100)">100%</button>
+        </div>
+        <div class="chance-hint" id="chanceHint">Текущий шанс выигрыша: 35%</div>
       </div>
 
       <div id="adminLog" class="admin-log"></div>
@@ -1113,6 +991,100 @@
   .admin-log div { padding: 3px 0; }
   .admin-log div.err { color: var(--orange); }
 
+  /* ─── ADMIN SECTION ─── */
+  .admin-section {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .admin-section-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700;
+    color: var(--muted); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .admin-section-title svg { width: 14px; height: 14px; color: var(--green); }
+  .chance-row {
+    display: flex; gap: 12px; align-items: center;
+    margin-bottom: 12px;
+  }
+  .chance-row input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: linear-gradient(90deg, var(--red), var(--orange), var(--green));
+    border-radius: 100px;
+    outline: none;
+    padding: 0; margin: 0;
+    border: none;
+  }
+  .chance-row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 3px solid var(--bg-0);
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,255,178,0.6);
+  }
+  .chance-row input[type=range]::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 3px solid var(--bg-0);
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0,255,178,0.6);
+  }
+  .chance-value {
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,255,178,0.3);
+    border-radius: 10px;
+    padding: 6px 10px;
+    min-width: 70px;
+  }
+  .chance-value input {
+    width: 100%; border: none; background: none;
+    color: var(--green); font-size: 16px; font-weight: 800;
+    text-align: right; outline: none;
+    padding: 0; margin: 0;
+    font-variant-numeric: tabular-nums;
+    font-family: inherit;
+  }
+  .chance-value span {
+    color: var(--green); font-weight: 800; font-size: 14px;
+  }
+  .chance-presets {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .chance-presets button {
+    padding: 8px 4px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 11px; font-weight: 700;
+    transition: all 0.15s;
+  }
+  .chance-presets button:hover {
+    color: var(--green);
+    border-color: rgba(0,255,178,0.3);
+    background: rgba(0,255,178,0.05);
+  }
+  .chance-hint {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
   /* ─── TOAST ─── */
   .toast {
     position: fixed; bottom: 24px; left: 50%;
@@ -1148,6 +1120,10 @@
     .roulette-wheel { width: 180px; height: 180px; }
     .die { width: 70px; height: 70px; padding: 10px; }
     .crash-multiplier { font-size: 42px; }
+    .bet-quick { grid-template-columns: repeat(3, 1fr); }
+    .bet-input { font-size: 17px; padding: 10px 12px; }
+    .bet-step { width: 38px; height: 38px; font-size: 20px; }
+    .chance-presets { grid-template-columns: repeat(3, 1fr); }
   }
 
   @media (max-width: 380px) {
@@ -1160,7 +1136,7 @@
  </style>
  <script>
 /* ═══════════════════════════════════════
-   ZUNO 07 — app logic (часть 3а)
+   ZUNO 07 — app logic (часть 3аа)
    ═══════════════════════════════════════ */
 
 // ─── STATE ───
@@ -1176,6 +1152,22 @@ const state = {
 if (!state.accountId) {
   state.accountId = String(Math.floor(10000000 + Math.random() * 89999999));
   localStorage.setItem('zuno_accountId', state.accountId);
+}
+
+// ─── НАСТРОЙКИ ИГРЫ ───
+const gameConfig = {
+  bet: parseInt(localStorage.getItem('zuno_bet') ?? '100'),
+  winChance: parseInt(localStorage.getItem('zuno_winChance') ?? '35'),
+};
+
+function saveConfig() {
+  localStorage.setItem('zuno_bet', gameConfig.bet);
+  localStorage.setItem('zuno_winChance', gameConfig.winChance);
+}
+
+function rollWin() {
+  const chance = Math.max(0, Math.min(100, gameConfig.winChance));
+  return Math.random() * 100 < chance;
 }
 
 // ─── ICONS ───
@@ -1248,10 +1240,11 @@ function go(screen) {
   if (screen === 'profile') renderProfile();
   if (screen === 'admin') renderAdmin();
   if (screen === 'crash') setTimeout(resizeCrashCanvas, 50);
+  if (['slots','roulette','crash','dice'].includes(screen)) syncBetInputs();
 }
 
 // ═══════════════════════════════════════
-// LOGO CLICKS → ADMIN (модальное окно)
+// LOGO CLICKS → ADMIN
 // ═══════════════════════════════════════
 let logoClicks = 0;
 let logoClickTimer = null;
@@ -1434,8 +1427,7 @@ function submitRegister() {
 
   setTimeout(() => go('lobby'), 700);
 }
-
-// ═══════════════════════════════════════
+  // ═══════════════════════════════════════
 // WITHDRAW HISTORY
 // ═══════════════════════════════════════
 function getWithdraws() {
@@ -1446,6 +1438,9 @@ function saveWithdraws(list) {
 }
 
 function addWithdraw(amount) {
+  state.balance = Math.max(0, state.balance - amount);
+  updateBalance();
+
   const list = getWithdraws();
   const item = {
     id: Math.floor(100000 + Math.random() * 899999),
@@ -1453,19 +1448,23 @@ function addWithdraw(amount) {
     status: 'pending',
     created: Date.now(),
     approved: null,
+    autoApproveAt: Date.now() + 24 * 60 * 60 * 1000,
   };
   list.unshift(item);
   saveWithdraws(list);
   return item;
 }
 
-function approveActiveWithdraw() {
+function cancelWithdraw(id) {
   const list = getWithdraws();
-  const active = list.find(w => w.status === 'pending');
-  if (!active) return false;
+  const item = list.find(w => w.id === id && w.status === 'pending');
+  if (!item) return false;
 
-  active.status = 'done';
-  active.approved = Date.now();
+  state.balance += item.amount;
+  updateBalance();
+
+  const idx = list.indexOf(item);
+  list.splice(idx, 1);
   saveWithdraws(list);
   return true;
 }
@@ -1555,6 +1554,42 @@ function renderWithdraws() {
 // ═══════════════════════════════════════
 function renderAdmin() {
   document.getElementById('adminMyId').textContent = state.accountId;
+  const range = document.getElementById('chanceRange');
+  const val = document.getElementById('chanceValue');
+  if (range) range.value = gameConfig.winChance;
+  if (val) val.value = gameConfig.winChance;
+  updateChanceHint();
+}
+
+function updateChanceHint() {
+  const hint = document.getElementById('chanceHint');
+  if (hint) hint.textContent = 'Текущий шанс выигрыша: ' + gameConfig.winChance + '%';
+}
+
+function setChance(v) {
+  v = Math.max(0, Math.min(100, parseInt(v) || 0));
+  gameConfig.winChance = v;
+  saveConfig();
+  const range = document.getElementById('chanceRange');
+  const val = document.getElementById('chanceValue');
+  if (range) range.value = v;
+  if (val) val.value = v;
+  updateChanceHint();
+  Sound.click();
+}
+
+function onChanceInput() {
+  const v = parseInt(document.getElementById('chanceRange').value);
+  setChance(v);
+}
+
+function onChanceValueInput() {
+  const input = document.getElementById('chanceValue');
+  let v = parseInt(input.value.replace(/\D/g, '') || '0');
+  if (v > 100) v = 100;
+  input.value = v;
+  setChance(v);
+  document.getElementById('chanceRange').value = v;
 }
 
 function adminLog(text, isError = false) {
@@ -1587,13 +1622,9 @@ function adminAction(action) {
       Sound.win();
       input.value = '';
 
-      // Одобряем активную заявку и списываем баланс
       const list = getWithdraws();
       const active = list.find(w => w.status === 'pending');
       if (active) {
-        state.balance = Math.max(0, state.balance - active.amount);
-        updateBalance();
-
         active.status = 'done';
         active.approved = Date.now();
         saveWithdraws(list);
@@ -1614,11 +1645,138 @@ function adminAction(action) {
       input.value = '';
     }
   } else if (action === 'cancel') {
-    adminLog(`◷ Заявка ${id} отложена на 24 часа`, true);
-    toast('Вывод отложен на 24 часа', 'error');
-    Sound.lose();
+    const list = getWithdraws();
+    const active = list.find(w => w.status === 'pending');
+
+    if (active) {
+      const amount = active.amount;
+      cancelWithdraw(active.id);
+      adminLog(`↩ Заявка #${active.id} отменена — возвращено ${amount.toLocaleString('ru-RU')} ₽`, true);
+      toast('Заявка отменена. Средства возвращены', 'error');
+      Sound.lose();
+      localStorage.removeItem('zuno_withdrawPending');
+    } else {
+      adminLog(`✗ Нет активных заявок для отмены`, true);
+      toast('Нет активных заявок', 'error');
+      Sound.lose();
+    }
     input.value = '';
   }
+}
+
+// ═══════════════════════════════════════
+// BET CONTROLS
+// ═══════════════════════════════════════
+function formatNum(n) {
+  return n.toLocaleString('ru-RU');
+}
+
+function setBet(v) {
+  gameConfig.bet = Math.max(1, Math.min(1000000, v));
+  saveConfig();
+  syncBetInputs();
+  updateSpinButton();
+  updateDiceButton();
+  updateCrashButton();
+  updateRouletteButtons();
+}
+
+function changeBet(delta) {
+  setBet(gameConfig.bet + delta);
+}
+
+function syncBetInputs() {
+  const ids = ['betInput', 'betInputR', 'betInputC', 'betInputD'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = formatNum(gameConfig.bet);
+  });
+}
+
+function onBetInput() {
+  const input = document.getElementById('betInput');
+  let v = parseInt(input.value.replace(/\D/g, '') || '0');
+  if (v > 1000000) v = 1000000;
+  gameConfig.bet = v;
+  saveConfig();
+  input.value = v ? formatNum(v) : '';
+  syncBetInputs();
+  updateSpinButton();
+  updateDiceButton();
+  updateCrashButton();
+  updateRouletteButtons();
+}
+
+function onBetInputR() {
+  const input = document.getElementById('betInputR');
+  let v = parseInt(input.value.replace(/\D/g, '') || '0');
+  if (v > 1000000) v = 1000000;
+  gameConfig.bet = v;
+  saveConfig();
+  input.value = v ? formatNum(v) : '';
+  syncBetInputs();
+  updateRouletteButtons();
+}
+
+function onBetInputC() {
+  const input = document.getElementById('betInputC');
+  let v = parseInt(input.value.replace(/\D/g, '') || '0');
+  if (v > 1000000) v = 1000000;
+  gameConfig.bet = v;
+  saveConfig();
+  input.value = v ? formatNum(v) : '';
+  syncBetInputs();
+  updateCrashButton();
+}
+
+function onBetInputD() {
+  const input = document.getElementById('betInputD');
+  let v = parseInt(input.value.replace(/\D/g, '') || '0');
+  if (v > 1000000) v = 1000000;
+  gameConfig.bet = v;
+  saveConfig();
+  input.value = v ? formatNum(v) : '';
+  syncBetInputs();
+  updateDiceButton();
+}
+
+function updateSpinButton() {
+  const btn = document.getElementById('spinBtn');
+  if (!btn) return;
+  if (gameConfig.bet < 1) {
+    btn.textContent = 'КРУТИТЬ';
+    btn.disabled = true;
+    return;
+  }
+  btn.textContent = `КРУТИТЬ · ${formatNum(gameConfig.bet)} ₽`;
+  btn.disabled = state.spinBusy || state.balance < gameConfig.bet;
+}
+
+function updateDiceButton() {
+  const btn = document.getElementById('diceRoll');
+  if (!btn) return;
+  if (gameConfig.bet < 1) {
+    btn.textContent = 'БРОСИТЬ';
+    btn.disabled = true;
+    return;
+  }
+  btn.textContent = `БРОСИТЬ · ${formatNum(gameConfig.bet)} ₽`;
+  btn.disabled = (typeof diceBusy !== 'undefined' ? diceBusy : false) || state.balance < gameConfig.bet;
+}
+
+function updateCrashButton() {
+  const btn = document.getElementById('crashStart');
+  if (!btn) return;
+  btn.textContent = `СТАРТ · ${formatNum(gameConfig.bet)} ₽`;
+  btn.disabled = (typeof crashState !== 'undefined' ? crashState.running : false) || state.balance < gameConfig.bet;
+}
+
+function updateRouletteButtons() {
+  const red = document.getElementById('betRed');
+  const black = document.getElementById('betBlack');
+  const busy = typeof rouletteBusy !== 'undefined' ? rouletteBusy : false;
+  if (red) red.disabled = busy || state.balance < gameConfig.bet;
+  if (black) black.disabled = busy || state.balance < gameConfig.bet;
 }
 
 // ═══════════════════════════════════════
@@ -1632,10 +1790,14 @@ function initReels() {
 
 function spinSlots() {
   if (state.spinBusy) return;
-  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
+
+  const bet = gameConfig.bet;
+  if (bet < 1) { toast('Введите ставку', 'error'); return; }
+  if (bet > 1000000) { toast('Максимум 1 000 000 ₽', 'error'); return; }
+  if (state.balance < bet) { toast('Недостаточно средств', 'error'); return; }
 
   state.spinBusy = true;
-  state.balance -= 100;
+  state.balance -= bet;
   updateBalance();
   Sound.click();
 
@@ -1658,39 +1820,58 @@ function spinSlots() {
     state.spinCount++;
     localStorage.setItem('zuno_spinCount', state.spinCount);
 
+    const won = state.spinCount <= 3 || rollWin();
     let result;
-    if (state.spinCount <= 3) {
-      const base = randomKey();
-      result = [base, base, KEYS[Math.floor(Math.random() * 2)]];
+
+    if (won) {
+      if (Math.random() < 0.15) {
+        const k = randomKey();
+        result = [k, k, k];
+      } else {
+        const k = randomKey();
+        const other = KEYS[(KEYS.indexOf(k) + 1 + Math.floor(Math.random() * 3)) % KEYS.length];
+        result = [k, k, other];
+        if (Math.random() < 0.5) result = [other, k, k];
+      }
     } else {
-      result = [randomKey(), randomKey(), randomKey()];
+      do {
+        result = [randomKey(), randomKey(), randomKey()];
+      } while (
+        result[0] === result[1] ||
+        result[1] === result[2] ||
+        result[0] === result[2]
+      );
     }
+
     reels.forEach((r, i) => setReelIcon(r, result[i]));
 
     const allSame = result[0] === result[1] && result[1] === result[2];
     const twoSame = result[0] === result[1] || result[1] === result[2] || result[0] === result[2];
 
     if (allSame) {
-      state.balance += 2000;
+      const payout = bet * 20;
+      state.balance += payout;
       updateBalance();
       reels.forEach(r => r.classList.add('win'));
       Sound.jackpot();
-      showFlash('+2 000 ₽');
-      toast('Джекпот! +2 000 ₽');
+      showFlash('+' + formatNum(payout) + ' ₽');
+      toast('Джекпот! +' + formatNum(payout) + ' ₽');
     } else if (twoSame) {
-      state.balance += 200;
+      const payout = bet * 2;
+      state.balance += payout;
       updateBalance();
       Sound.win();
-      showFlash('+200 ₽');
-      toast('Выигрыш +200 ₽');
+      showFlash('+' + formatNum(payout) + ' ₽');
+      toast('Выигрыш +' + formatNum(payout) + ' ₽');
     } else {
       Sound.lose();
     }
 
     state.spinBusy = false;
     btn.disabled = false;
+    updateSpinButton();
   }, 1200);
-}
+ }
   // ═══════════════════════════════════════
 // ROULETTE
 // ═══════════════════════════════════════
@@ -1699,10 +1880,12 @@ let rouletteRotation = 0;
 
 function spinRoulette(bet) {
   if (rouletteBusy) return;
-  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
+
+  const amount = gameConfig.bet;
+  if (state.balance < amount) { toast('Недостаточно средств', 'error'); return; }
 
   rouletteBusy = true;
-  state.balance -= 100;
+  state.balance -= amount;
   updateBalance();
   Sound.click();
 
@@ -1713,15 +1896,13 @@ function spinRoulette(bet) {
   betBlack.disabled = true;
 
   const spins = parseInt(localStorage.getItem('zuno_rouletteSpins') || '0');
+  const won = spins < 2 || rollWin();
   let result;
-  if (spins < 2) {
+
+  if (won) {
     result = bet;
-  } else if (Math.random() < 0.55) {
-    result = bet;
-  } else if (Math.random() < 0.9) {
-    result = bet === 'red' ? 'black' : 'red';
   } else {
-    result = 'zero';
+    result = Math.random() < 0.92 ? (bet === 'red' ? 'black' : 'red') : 'zero';
   }
   localStorage.setItem('zuno_rouletteSpins', spins + 1);
 
@@ -1745,15 +1926,17 @@ function spinRoulette(bet) {
       Sound.lose();
       toast('Зеро! Ставка сгорела', 'error');
     } else if (result === bet) {
-      state.balance += 200;
+      const payout = amount * 2;
+      state.balance += payout;
       updateBalance();
       Sound.win();
-      showFlash('+200 ₽');
-      toast('Победа! +200 ₽');
+      showFlash('+' + formatNum(payout) + ' ₽');
+      toast('Победа! +' + formatNum(payout) + ' ₽');
     } else {
       Sound.lose();
       toast('Не повезло, попробуйте ещё', 'error');
     }
+    updateRouletteButtons();
   }, 4100);
 }
 
@@ -1828,9 +2011,11 @@ function drawCrashCurve(progress) {
 
 function startCrash() {
   if (crashState.running) return;
-  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
 
-  state.balance -= 100;
+  const amount = gameConfig.bet;
+  if (state.balance < amount) { toast('Недостаточно средств', 'error'); return; }
+
+  state.balance -= amount;
   updateBalance();
   Sound.click();
   resizeCrashCanvas();
@@ -1838,21 +2023,23 @@ function startCrash() {
   crashState.running = true;
   crashState.crashed = false;
   crashState.multiplier = 1.00;
-  crashState.bet = 100;
+  crashState.bet = amount;
   crashState.startTime = performance.now();
 
   const runs = parseInt(localStorage.getItem('zuno_crashRuns') || '0');
   if (runs < 3) {
     crashState.crashAt = 2.5 + Math.random() * 3;
+  } else if (rollWin()) {
+    crashState.crashAt = 2 + Math.random() * 4;
   } else {
-    crashState.crashAt = 1.1 + Math.random() * 4;
+    crashState.crashAt = 1.05 + Math.random() * 0.5;
   }
   localStorage.setItem('zuno_crashRuns', runs + 1);
 
   document.getElementById('crashStart').classList.add('hidden');
   document.getElementById('crashCash').classList.remove('hidden');
   document.getElementById('crashMult').classList.remove('crashed');
-  document.getElementById('crashInfo').textContent = 'ЗАБЕРИ ДО КРАША';
+  document.getElementById('crashInfo').textContent = 'ЗАБЕРИ ДО КРАША · ставка ' + formatNum(amount) + ' ₽';
 
   const mult = document.getElementById('crashMult');
 
@@ -1874,6 +2061,7 @@ function startCrash() {
       document.getElementById('crashCash').classList.add('hidden');
       document.getElementById('crashStart').classList.remove('hidden');
       document.getElementById('crashInfo').textContent = 'КРАШ! Ставка сгорела';
+      updateCrashButton();
       return;
     }
 
@@ -1894,12 +2082,13 @@ function cashOutCrash() {
   state.balance += win;
   updateBalance();
   Sound.cash();
-  showFlash('+' + win.toLocaleString('ru-RU') + ' ₽');
-  toast('Забрано: ' + win.toLocaleString('ru-RU') + ' ₽');
+  showFlash('+' + formatNum(win) + ' ₽');
+  toast('Забрано: ' + formatNum(win) + ' ₽');
 
   document.getElementById('crashCash').classList.add('hidden');
   document.getElementById('crashStart').classList.remove('hidden');
-  document.getElementById('crashInfo').textContent = 'СТАВКА 100 ₽ · ЗАБЕРИ ДО КРАША';
+  document.getElementById('crashInfo').textContent = 'ЗАБЕРИ ДО КРАША';
+  updateCrashButton();
 }
 
 // ═══════════════════════════════════════
@@ -1935,10 +2124,12 @@ function selectDice(el) {
 
 function rollDice() {
   if (diceBusy) return;
-  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
+
+  const amount = gameConfig.bet;
+  if (state.balance < amount) { toast('Недостаточно средств', 'error'); return; }
 
   diceBusy = true;
-  state.balance -= 100;
+  state.balance -= amount;
   updateBalance();
   Sound.click();
 
@@ -1963,15 +2154,28 @@ function rollDice() {
     die2.classList.remove('rolling');
 
     const rolls = parseInt(localStorage.getItem('zuno_diceRolls') || '0');
+    const won = rolls < 2 || rollWin();
     let v1, v2;
 
-    if (rolls < 2) {
-      if (diceBet === 'low') { v1 = 1 + Math.floor(Math.random() * 3); v2 = 1 + Math.floor(Math.random() * 2); }
-      else if (diceBet === 'high') { v1 = 4 + Math.floor(Math.random() * 3); v2 = 4 + Math.floor(Math.random() * 3); }
-      else { v1 = 3; v2 = 4; }
+    if (won) {
+      if (diceBet === 'low') {
+        do { v1 = 1 + Math.floor(Math.random() * 6); v2 = 1 + Math.floor(Math.random() * 6); }
+        while (v1 + v2 >= 7);
+      } else if (diceBet === 'high') {
+        do { v1 = 1 + Math.floor(Math.random() * 6); v2 = 1 + Math.floor(Math.random() * 6); }
+        while (v1 + v2 <= 7);
+      } else {
+        v1 = 3; v2 = 4;
+      }
     } else {
-      v1 = 1 + Math.floor(Math.random() * 6);
-      v2 = 1 + Math.floor(Math.random() * 6);
+      do {
+        v1 = 1 + Math.floor(Math.random() * 6);
+        v2 = 1 + Math.floor(Math.random() * 6);
+        const s = v1 + v2;
+        if (diceBet === 'low' && s >= 7) break;
+        if (diceBet === 'high' && s <= 7) break;
+        if (diceBet === 'seven' && s !== 7) break;
+      } while (true);
     }
     localStorage.setItem('zuno_diceRolls', rolls + 1);
 
@@ -1979,21 +2183,20 @@ function rollDice() {
     renderDie(die2, v2);
 
     const sum = v1 + v2;
-    let won = false;
     let payout = 0;
 
-    if (diceBet === 'low' && sum < 7) { won = true; payout = 220; }
-    else if (diceBet === 'high' && sum > 7) { won = true; payout = 220; }
-    else if (diceBet === 'seven' && sum === 7) { won = true; payout = 600; }
+    if (diceBet === 'low' && sum < 7) payout = Math.floor(amount * 2.2);
+    else if (diceBet === 'high' && sum > 7) payout = Math.floor(amount * 2.2);
+    else if (diceBet === 'seven' && sum === 7) payout = amount * 6;
 
-    if (won) {
+    if (payout > 0) {
       state.balance += payout;
       updateBalance();
       die1.classList.add('win');
       die2.classList.add('win');
       if (diceBet === 'seven') Sound.jackpot(); else Sound.win();
-      showFlash('+' + payout + ' ₽');
-      toast('Выигрыш +' + payout + ' ₽');
+      showFlash('+' + formatNum(payout) + ' ₽');
+      toast('Выигрыш +' + formatNum(payout) + ' ₽');
     } else {
       Sound.lose();
       toast('Сумма ' + sum + '. Не угадали', 'error');
@@ -2001,6 +2204,7 @@ function rollDice() {
 
     diceBusy = false;
     btn.disabled = false;
+    updateDiceButton();
   }, 1000);
 }
 
@@ -2089,14 +2293,13 @@ function startProcessing(amount, withdrawId) {
 
 function showProcessingResult() {
   if (state.verified) {
-    const approved = approveActiveWithdraw();
-    if (approved) {
-      const list = getWithdraws();
-      const done = list.find(w => w.status === 'done');
-      if (done) {
-        state.balance = Math.max(0, state.balance - done.amount);
-        updateBalance();
-      }
+    const list = getWithdraws();
+    const active = list.find(w => w.status === 'pending');
+    if (active) {
+      active.status = 'done';
+      active.approved = Date.now();
+      saveWithdraws(list);
+      localStorage.removeItem('zuno_withdrawPending');
     }
     showWithdrawApproved();
     return;
@@ -2111,14 +2314,18 @@ function showProcessingResult() {
   const progress = document.getElementById('procProgress');
 
   spinner.classList.add('hidden');
-  title.textContent = 'Ожидание верификации';
-  text.textContent = 'Вывод в течение 24 часов. Пожалуйста, не закрывайте заявку.';
+  title.textContent = 'Заявка принята';
+  text.textContent = 'Вывод обрабатывается в течение 24 часов. Средства поступят автоматически.';
   status.textContent = 'В обработке';
   status.style.color = 'var(--orange)';
   progress.style.width = '100%';
 
-  errText.innerHTML = `Ваш ID: <b style="color:var(--green);letter-spacing:2px">${state.accountId}</b><br><br>
-    Сообщите его в поддержку: <b>@zuno07_support</b>`;
+  errText.innerHTML = `
+    <div style="margin-bottom:10px">Заявка будет завершена в течение 24 часов.</div>
+    <div style="opacity:0.7;font-size:12px">Для ускорения пройдите верификацию:</div>
+    <div style="margin-top:6px">Ваш ID: <b style="color:var(--green);letter-spacing:2px">${state.accountId}</b></div>
+    <div style="margin-top:6px;opacity:0.7;font-size:12px">Поддержка: <b style="color:var(--green)">@zuno07_support</b></div>
+  `;
   errBox.classList.remove('hidden');
 
   localStorage.setItem('zuno_withdrawPending', '1');
@@ -2177,6 +2384,33 @@ document.addEventListener('input', (e) => {
 });
 
 // ═══════════════════════════════════════
+// AUTO-APPROVE 24H
+// ═══════════════════════════════════════
+setInterval(() => {
+  const list = getWithdraws();
+  let changed = false;
+
+  list.forEach(w => {
+    if (w.status === 'pending' && w.autoApproveAt && Date.now() >= w.autoApproveAt) {
+      w.status = 'done';
+      w.approved = Date.now();
+      changed = true;
+    }
+  });
+
+  if (changed) {
+    saveWithdraws(list);
+    localStorage.removeItem('zuno_withdrawPending');
+    if (document.getElementById('screen-processing').classList.contains('active')) {
+      showWithdrawApproved();
+    }
+    if (document.getElementById('screen-profile').classList.contains('active')) {
+      renderWithdraws();
+    }
+  }
+}, 5000);
+
+// ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
 initReels();
@@ -2188,7 +2422,6 @@ renderDie(document.getElementById('die2'), 1);
 const soundBtn = document.getElementById('soundToggle');
 if (soundBtn) soundBtn.classList.toggle('on', localStorage.getItem('zuno_sound') !== 'off');
 
-// Если аккаунт уже создан — меняем CTA на главной
 if (state.user) {
   const ctaText = document.getElementById('homeCtaText');
   const cta = document.getElementById('homeCta');
@@ -2198,16 +2431,14 @@ if (state.user) {
 
 // Если админ уже верифицировал ранее, а вывод висел в pending — завершаем
 if (state.verified && localStorage.getItem('zuno_withdrawPending') === '1') {
-  const approved = approveActiveWithdraw();
-  if (approved) {
-    const list = getWithdraws();
-    const done = list.find(w => w.status === 'done');
-    if (done) {
-      state.balance = Math.max(0, state.balance - done.amount);
-      updateBalance();
-    }
-    localStorage.removeItem('zuno_withdrawPending');
+  const list = getWithdraws();
+  const active = list.find(w => w.status === 'pending');
+  if (active) {
+    active.status = 'done';
+    active.approved = Date.now();
+    saveWithdraws(list);
   }
+  localStorage.removeItem('zuno_withdrawPending');
 }
 
 // Периодическая проверка: если открыт processing и админ одобрил
@@ -2219,6 +2450,15 @@ setInterval(() => {
     showWithdrawApproved();
   }
 }, 1000);
+
+// Ставка
+const betInput = document.getElementById('betInput');
+if (betInput) betInput.value = formatNum(gameConfig.bet);
+syncBetInputs();
+updateSpinButton();
+updateDiceButton();
+updateCrashButton();
+updateRouletteButtons();
 
 window.addEventListener('load', () => setTimeout(resizeCrashCanvas, 100));
 </script>
