@@ -19,6 +19,7 @@
     --green-2: #00d4a0;
     --purple: #7c3aed;
     --red: #ff4d6d;
+    --orange: #ffb84d;
   }
   html, body {
     height: 100%;
@@ -42,7 +43,8 @@
   /* ─── NAV ─── */
   .nav {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px;
+    padding: 12px 16px;
+    gap: 10px;
     border-bottom: 1px solid var(--line);
     position: sticky; top: 0; z-index: 50;
     background: rgba(6,8,15,0.85);
@@ -50,45 +52,49 @@
     -webkit-backdrop-filter: blur(20px);
   }
   .logo {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 20px; font-weight: 800; letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 6px;
+    font-size: 18px; font-weight: 800; letter-spacing: 0.3px;
     background: linear-gradient(90deg, var(--green), var(--purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
     cursor: pointer;
     user-select: none;
+    flex-shrink: 0;
   }
-  .logo svg { flex-shrink: 0; }
+  .logo svg { flex-shrink: 0; width: 22px; height: 22px; }
   .logo-badge {
-    font-size: 10px; font-weight: 800;
+    font-size: 9px; font-weight: 800;
     background: var(--green); color: var(--bg-0);
-    padding: 3px 6px; border-radius: 5px;
+    padding: 2px 5px; border-radius: 4px;
     -webkit-text-fill-color: var(--bg-0);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
   }
-  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .nav-right { display: flex; align-items: center; gap: 6px; }
   .balance-pill {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 5px;
     background: rgba(0,255,178,0.08);
     border: 1px solid rgba(0,255,178,0.25);
     border-radius: 100px;
-    padding: 8px 14px;
-    font-size: 14px; font-weight: 700;
+    padding: 6px 11px;
+    font-size: 13px; font-weight: 700;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
-  .balance-pill svg { color: var(--green); }
+  .balance-pill svg { width: 14px; height: 14px; color: var(--green); }
   .balance-pill b { color: var(--green); }
   .icon-btn {
-    width: 40px; height: 40px;
-    border-radius: 12px;
+    width: 34px; height: 34px;
+    border-radius: 10px;
     background: rgba(255,255,255,0.05);
     border: 1px solid var(--line);
     display: flex; align-items: center; justify-content: center;
     color: var(--muted);
     transition: all 0.15s;
+    flex-shrink: 0;
   }
   .icon-btn:hover { color: var(--green); border-color: rgba(0,255,178,0.3); }
   .icon-btn.on { color: var(--green); border-color: rgba(0,255,178,0.3); }
+  .icon-btn svg { width: 17px; height: 17px; }
 
   /* ─── SCREENS ─── */
   .screen { display: none; flex: 1; animation: fadeIn 0.3s ease; }
@@ -443,7 +449,7 @@
  <!-- ═══ NAV ═══ -->
 <nav class="nav">
   <div class="logo" id="logoBtn" onclick="logoClick()">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-linejoin="round">
       <defs>
         <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stop-color="#00ffb2"/>
@@ -456,7 +462,7 @@
   </div>
   <div class="nav-right">
     <div class="balance-pill">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="6" width="18" height="13" rx="2"/>
         <path d="M3 10h18M16 14h2"/>
       </svg>
@@ -464,20 +470,20 @@
       <span style="color:var(--muted);font-weight:500">₽</span>
     </div>
     <button class="icon-btn" id="soundToggle" onclick="toggleSound()" title="Звук">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M11 5L6 9H2v6h4l5 4V5z"/>
         <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
         <path d="M19 5a9 9 0 0 1 0 14"/>
       </svg>
     </button>
     <button class="icon-btn" onclick="go('profile')" title="Профиль">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="8" r="4"/>
         <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
       </svg>
     </button>
     <button class="icon-btn" onclick="go('withdraw')" title="Вывод">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 19V5M5 12l7-7 7 7"/>
       </svg>
     </button>
@@ -608,6 +614,26 @@
         <button class="submit-btn" onclick="go('register')">Зарегистрироваться</button>
       </div>
 
+      <div class="history-section">
+        <div class="history-title">
+          Активные выводы
+          <span class="history-count" id="activeCount">0</span>
+        </div>
+        <div id="activeWithdraws">
+          <div class="history-empty">Нет активных заявок</div>
+        </div>
+      </div>
+
+      <div class="history-section">
+        <div class="history-title">
+          История выводов
+          <span class="history-count" id="historyCount">0</span>
+        </div>
+        <div id="historyWithdraws">
+          <div class="history-empty">Пока нет завершённых выводов</div>
+        </div>
+      </div>
+
       <p id="accountInfo" class="profile-hint">
         Сообщите этот ID в поддержку для прохождения верификации
       </p>
@@ -688,7 +714,7 @@
       <div class="bet-info">СТАВКА 100 ₽ · МАКС ВЫИГРЫШ x20</div>
     </div>
   </div>
- </div>
+     </div>
  <!-- ═══ SCREEN: ROULETTE ═══ -->
 <div class="screen" id="screen-roulette">
   <div class="container">
@@ -820,30 +846,31 @@
 <div class="screen" id="screen-admin">
   <div class="container">
     <button class="btn-ghost" onclick="go('home')" style="margin-bottom:20px">← Выйти из админки</button>
-    <div class="form-card" style="max-width:600px">
-      <div class="page-title" style="font-size:22px;color:var(--green)">Админ-панель</div>
+    <div class="form-card" style="max-width:560px">
+      <div class="page-title" style="font-size:20px;color:var(--green)">Админ-панель</div>
       <div class="page-sub">Управление верификацией аккаунтов</div>
 
-      <div class="balance-box">
+      <div class="balance-box" style="padding:12px 16px;margin-bottom:18px">
         <span>Ваш ID</span>
-        <b id="adminMyId" class="mono" style="font-size:16px;letter-spacing:2px">—</b>
+        <b id="adminMyId" class="mono" style="font-size:14px;letter-spacing:2px">—</b>
       </div>
 
       <label>ID аккаунта клиента</label>
-      <input type="text" id="adminVerifyId" placeholder="00000000" maxlength="8" inputmode="numeric" style="text-align:center;letter-spacing:6px;font-size:22px;font-weight:800">
+      <input type="text" id="adminVerifyId" placeholder="00000000" maxlength="8" inputmode="numeric" style="text-align:center;letter-spacing:5px;font-size:18px;font-weight:800;padding:12px">
 
       <div class="admin-actions">
         <button class="admin-btn approve" onclick="adminAction('approve')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 6L9 17l-5-5"/>
           </svg>
-          Верифицировать
+          Одобрить
         </button>
-        <button class="admin-btn reject" onclick="adminAction('reject')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-            <path d="M18 6L6 18M6 6l12 12"/>
+        <button class="admin-btn cancel" onclick="adminAction('cancel')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 7v5l3 2"/>
           </svg>
-          Отклонить
+          Отложить
         </button>
       </div>
 
@@ -926,7 +953,7 @@
   }
   .profile-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 0;
+    padding: 13px 0;
     font-size: 14px;
     border-bottom: 1px solid var(--line);
   }
@@ -939,6 +966,76 @@
     font-size: 12px;
     margin-top: 16px;
     line-height: 1.5;
+  }
+
+  /* ─── WITHDRAW HISTORY ─── */
+  .history-section {
+    margin-top: 20px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+  .history-title {
+    font-size: 12px; font-weight: 700;
+    color: var(--muted); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .history-count {
+    background: rgba(0,255,178,0.15);
+    color: var(--green);
+    font-size: 11px;
+    padding: 2px 7px; border-radius: 100px;
+    font-weight: 800;
+  }
+  .history-item {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .history-item.active {
+    border-color: rgba(255,184,77,0.4);
+    background: rgba(255,184,77,0.05);
+  }
+  .history-item.done {
+    border-color: rgba(0,255,178,0.25);
+  }
+  .history-item .hi-left {
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .history-item .hi-amount {
+    font-weight: 800;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+  .history-item .hi-date {
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .history-item .hi-status {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .hi-status.pending {
+    background: rgba(255,184,77,0.15);
+    color: var(--orange);
+  }
+  .hi-status.done {
+    background: rgba(0,255,178,0.15);
+    color: var(--green);
+  }
+  .history-empty {
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    padding: 16px;
   }
 
   /* ─── PROCESSING ─── */
@@ -968,13 +1065,13 @@
     box-shadow: 0 0 20px rgba(0,255,178,0.5);
   }
   .error-box {
-    background: rgba(255,77,109,0.08);
-    border: 1px solid rgba(255,77,109,0.3);
+    background: rgba(255,184,77,0.08);
+    border: 1px solid rgba(255,184,77,0.3);
     border-radius: 14px; padding: 16px 20px; margin-bottom: 20px;
     display: flex; align-items: flex-start; gap: 12px; text-align: left;
   }
-  .error-box svg { color: var(--red); flex-shrink: 0; margin-top: 2px; }
-  .error-box div { font-size: 13px; color: #ffb3c1; line-height: 1.5; }
+  .error-box svg { color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+  .error-box div { font-size: 13px; color: #ffd9a3; line-height: 1.5; }
   .btn-ghost {
     padding: 14px 28px; border: 1px solid var(--line);
     border-radius: 12px; color: var(--muted);
@@ -983,36 +1080,38 @@
   .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
 
   /* ─── ADMIN ─── */
-  .admin-actions { display: flex; gap: 10px; margin-bottom: 20px; }
+  .admin-actions { display: flex; gap: 8px; margin-bottom: 16px; }
   .admin-btn {
-    flex: 1; padding: 16px 12px;
-    border-radius: 12px;
-    font-weight: 800; font-size: 14px;
-    border: 2px solid;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
+    flex: 1; padding: 12px 10px;
+    border-radius: 10px;
+    font-weight: 700; font-size: 13px;
+    border: 1.5px solid;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
     transition: all 0.15s;
+    letter-spacing: 0.3px;
   }
+  .admin-btn svg { width: 15px; height: 15px; }
   .admin-btn.approve { color: var(--green); border-color: var(--green); background: rgba(0,255,178,0.08); }
-  .admin-btn.reject { color: var(--red); border-color: var(--red); background: rgba(255,77,109,0.08); }
-  .admin-btn:hover { transform: translateY(-2px); }
+  .admin-btn.cancel  { color: var(--orange); border-color: var(--orange); background: rgba(255,184,77,0.08); }
+  .admin-btn:hover { transform: translateY(-1px); }
   .admin-log {
     background: rgba(0,0,0,0.4);
     border: 1px solid var(--line);
     border-radius: 12px;
-    padding: 16px;
+    padding: 14px;
     font-family: ui-monospace, 'Courier New', monospace;
     font-size: 12px;
     color: var(--green);
-    max-height: 200px;
+    max-height: 180px;
     overflow-y: auto;
-    min-height: 60px;
+    min-height: 50px;
   }
   .admin-log:empty::before {
     content: 'Журнал пуст';
     color: var(--muted);
   }
-  .admin-log div { padding: 4px 0; }
-  .admin-log div.err { color: var(--red); }
+  .admin-log div { padding: 3px 0; }
+  .admin-log div.err { color: var(--orange); }
 
   /* ─── TOAST ─── */
   .toast {
@@ -1028,15 +1127,19 @@
     backdrop-filter: blur(20px);
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.error { border-color: rgba(255,77,109,0.4); }
+  .toast.error { border-color: rgba(255,184,77,0.4); }
   .toast svg { flex-shrink: 0; }
 
   /* ─── MOBILE ─── */
   @media (max-width: 480px) {
-    .nav { padding: 14px 16px; gap: 8px; }
-    .logo { font-size: 18px; }
-    .balance-pill { padding: 6px 10px; font-size: 12px; }
-    .icon-btn { width: 34px; height: 34px; }
+    .nav { padding: 10px 12px; gap: 6px; }
+    .logo { font-size: 16px; }
+    .logo svg { width: 18px; height: 18px; }
+    .logo-badge { font-size: 8px; padding: 2px 4px; }
+    .balance-pill { padding: 5px 9px; font-size: 12px; }
+    .balance-pill svg { width: 12px; height: 12px; }
+    .icon-btn { width: 30px; height: 30px; }
+    .icon-btn svg { width: 15px; height: 15px; }
     .reel { width: 78px; height: 78px; }
     .reel svg { width: 40px; height: 40px; }
     .reels { gap: 8px; }
@@ -1047,10 +1150,15 @@
     .crash-multiplier { font-size: 42px; }
   }
 
+  @media (max-width: 380px) {
+    .balance-pill span { display: none; }
+    .icon-btn { width: 28px; height: 28px; }
+  }
+
   .hidden { display: none !important; }
   .mono { font-variant-numeric: tabular-nums; }
-         </style>
-       <script>
+ </style>
+ <script>
 /* ═══════════════════════════════════════
    ZUNO 07 — app logic (часть 3а)
    ═══════════════════════════════════════ */
@@ -1065,7 +1173,6 @@ const state = {
   accountId: localStorage.getItem('zuno_accountId') || null,
 };
 
-// Генерируем уникальный 8-значный ID при первом заходе
 if (!state.accountId) {
   state.accountId = String(Math.floor(10000000 + Math.random() * 89999999));
   localStorage.setItem('zuno_accountId', state.accountId);
@@ -1083,7 +1190,7 @@ const ICONS = {
 const KEYS = Object.keys(ICONS);
 
 // ═══════════════════════════════════════
-// SOUND — Web Audio API
+// SOUND
 // ═══════════════════════════════════════
 const Sound = (() => {
   let ctx = null;
@@ -1144,7 +1251,7 @@ function go(screen) {
 }
 
 // ═══════════════════════════════════════
-// LOGO CLICKS → ADMIN
+// LOGO CLICKS → ADMIN (модальное окно)
 // ═══════════════════════════════════════
 let logoClicks = 0;
 let logoClickTimer = null;
@@ -1163,16 +1270,94 @@ function logoClick() {
 }
 
 function openAdminLogin() {
-  const pass = prompt('Введите пароль администратора:');
-  if (pass === null) return;
-  if (pass === '2012') {
-    go('admin');
-    Sound.jackpot();
-    toast('Доступ разрешён');
-  } else {
-    Sound.lose();
-    toast('Неверный пароль', 'error');
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.25s ease;
+  `;
+
+  modal.innerHTML = `
+    <div style="
+      background: linear-gradient(180deg, #111827, #0a0e1a);
+      border: 1px solid rgba(0,255,178,0.3);
+      border-radius: 20px;
+      padding: 28px 24px;
+      max-width: 360px; width: 100%;
+      box-shadow: 0 30px 80px rgba(0,255,178,0.15);
+    ">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ffb2" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <div style="font-weight:800;font-size:16px;color:#00ffb2;letter-spacing:0.5px">Доступ ограничен</div>
+      </div>
+      <div style="color:#7b86a3;font-size:13px;margin-bottom:16px;line-height:1.5">
+        Введите пароль администратора для входа в панель управления
+      </div>
+      <input type="password" id="adminPassInput" placeholder="••••"
+        style="width:100%;padding:14px 16px;font-size:18px;text-align:center;letter-spacing:8px;
+        background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);border-radius:12px;
+        color:#fff;outline:none;margin-bottom:16px;transition:border 0.2s" maxlength="10">
+      <div style="display:flex;gap:10px">
+        <button id="adminPassCancel" style="
+          flex:1;padding:12px;border-radius:10px;
+          border:1px solid rgba(255,255,255,0.1);
+          background:rgba(255,255,255,0.03);
+          color:#7b86a3;font-weight:700;font-size:13px;cursor:pointer;
+          font-family:inherit;
+        ">Отмена</button>
+        <button id="adminPassOk" style="
+          flex:1;padding:12px;border-radius:10px;
+          background:linear-gradient(90deg,#00ffb2,#00d4a0);
+          color:#06080f;font-weight:800;font-size:13px;cursor:pointer;
+          border:none;font-family:inherit;
+        ">Войти</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const input = modal.querySelector('#adminPassInput');
+  const ok = modal.querySelector('#adminPassOk');
+  const cancel = modal.querySelector('#adminPassCancel');
+
+  setTimeout(() => input.focus(), 100);
+
+  function close() {
+    modal.style.opacity = '0';
+    modal.style.transition = 'opacity 0.2s';
+    setTimeout(() => modal.remove(), 200);
   }
+
+  function tryLogin() {
+    if (input.value === '2012') {
+      close();
+      go('admin');
+      Sound.jackpot();
+      toast('Доступ разрешён');
+    } else {
+      input.value = '';
+      input.style.borderColor = '#ff4d6d';
+      input.placeholder = 'Неверный пароль';
+      Sound.lose();
+      setTimeout(() => {
+        input.style.borderColor = 'rgba(255,255,255,0.1)';
+        input.placeholder = '••••';
+      }, 1200);
+    }
+  }
+
+  ok.onclick = tryLogin;
+  cancel.onclick = close;
+  input.onkeydown = (e) => { if (e.key === 'Enter') tryLogin(); };
+  modal.onclick = (e) => { if (e.target === modal) close(); };
 }
 
 // ─── BALANCE ───
@@ -1189,7 +1374,7 @@ function toast(text, type = 'success') {
   const t = document.getElementById('toast');
   document.getElementById('toastText').textContent = text;
   t.classList.toggle('error', type === 'error');
-  t.querySelector('svg').style.stroke = type === 'error' ? 'var(--red)' : 'var(--green)';
+  t.querySelector('svg').style.stroke = type === 'error' ? 'var(--orange)' : 'var(--green)';
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
@@ -1251,6 +1436,47 @@ function submitRegister() {
 }
 
 // ═══════════════════════════════════════
+// WITHDRAW HISTORY
+// ═══════════════════════════════════════
+function getWithdraws() {
+  return JSON.parse(localStorage.getItem('zuno_withdraws') || '[]');
+}
+function saveWithdraws(list) {
+  localStorage.setItem('zuno_withdraws', JSON.stringify(list));
+}
+
+function addWithdraw(amount) {
+  const list = getWithdraws();
+  const item = {
+    id: Math.floor(100000 + Math.random() * 899999),
+    amount,
+    status: 'pending',
+    created: Date.now(),
+    approved: null,
+  };
+  list.unshift(item);
+  saveWithdraws(list);
+  return item;
+}
+
+function approveActiveWithdraw() {
+  const list = getWithdraws();
+  const active = list.find(w => w.status === 'pending');
+  if (!active) return false;
+
+  active.status = 'done';
+  active.approved = Date.now();
+  saveWithdraws(list);
+  return true;
+}
+
+function formatDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' }) +
+    ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+}
+
+// ═══════════════════════════════════════
 // PROFILE
 // ═══════════════════════════════════════
 function renderProfile() {
@@ -1279,6 +1505,48 @@ function renderProfile() {
     document.getElementById('profPhone').textContent = '—';
     accInfo.classList.add('hidden');
     noAcc.classList.remove('hidden');
+  }
+
+  renderWithdraws();
+}
+
+function renderWithdraws() {
+  const list = getWithdraws();
+  const active = list.filter(w => w.status === 'pending');
+  const done = list.filter(w => w.status === 'done');
+
+  document.getElementById('activeCount').textContent = active.length;
+  document.getElementById('historyCount').textContent = done.length;
+
+  const activeEl = document.getElementById('activeWithdraws');
+  const doneEl = document.getElementById('historyWithdraws');
+
+  if (active.length === 0) {
+    activeEl.innerHTML = '<div class="history-empty">Нет активных заявок</div>';
+  } else {
+    activeEl.innerHTML = active.map(w => `
+      <div class="history-item active">
+        <div class="hi-left">
+          <span class="hi-amount">${w.amount.toLocaleString('ru-RU')} ₽</span>
+          <span class="hi-date">Заявка #${w.id} · ${formatDate(w.created)}</span>
+        </div>
+        <span class="hi-status pending">В обработке</span>
+      </div>
+    `).join('');
+  }
+
+  if (done.length === 0) {
+    doneEl.innerHTML = '<div class="history-empty">Пока нет завершённых выводов</div>';
+  } else {
+    doneEl.innerHTML = done.map(w => `
+      <div class="history-item done">
+        <div class="hi-left">
+          <span class="hi-amount">${w.amount.toLocaleString('ru-RU')} ₽</span>
+          <span class="hi-date">Заявка #${w.id} · ${formatDate(w.approved || w.created)}</span>
+        </div>
+        <span class="hi-status done">Завершён</span>
+      </div>
+    `).join('');
   }
 }
 
@@ -1319,8 +1587,25 @@ function adminAction(action) {
       Sound.win();
       input.value = '';
 
-      if (localStorage.getItem('zuno_withdrawPending') === '1') {
-        setTimeout(() => showWithdrawApproved(), 300);
+      // Одобряем активную заявку и списываем баланс
+      const list = getWithdraws();
+      const active = list.find(w => w.status === 'pending');
+      if (active) {
+        state.balance = Math.max(0, state.balance - active.amount);
+        updateBalance();
+
+        active.status = 'done';
+        active.approved = Date.now();
+        saveWithdraws(list);
+
+        adminLog(`✓ Вывод #${active.id} на ${active.amount.toLocaleString('ru-RU')} ₽ одобрен`);
+        localStorage.removeItem('zuno_withdrawPending');
+
+        setTimeout(() => {
+          if (document.getElementById('screen-processing').classList.contains('active')) {
+            showWithdrawApproved();
+          }
+        }, 300);
       }
     } else {
       adminLog(`✓ Аккаунт ${id} верифицирован`);
@@ -1328,9 +1613,9 @@ function adminAction(action) {
       Sound.win();
       input.value = '';
     }
-  } else {
-    adminLog(`✗ Аккаунт ${id} отклонён`, true);
-    toast('Заявка отклонена', 'error');
+  } else if (action === 'cancel') {
+    adminLog(`◷ Заявка ${id} отложена на 24 часа`, true);
+    toast('Вывод отложен на 24 часа', 'error');
     Sound.lose();
     input.value = '';
   }
@@ -1406,7 +1691,7 @@ function spinSlots() {
     btn.disabled = false;
   }, 1200);
 }
- // ═══════════════════════════════════════
+  // ═══════════════════════════════════════
 // ROULETTE
 // ═══════════════════════════════════════
 let rouletteBusy = false;
@@ -1740,18 +2025,27 @@ function submitWithdraw() {
   if (!amount || amount < 1000) { toast('Минимальная сумма — 1 000 ₽', 'error'); return; }
   if (amount > state.balance) { toast('Недостаточно средств', 'error'); return; }
 
+  const existing = getWithdraws().find(w => w.status === 'pending');
+  if (existing) {
+    toast('У вас уже есть активная заявка', 'error');
+    return;
+  }
+
   Sound.click();
-  startProcessing(amount);
+
+  const item = addWithdraw(amount);
+  amountInput.value = '';
+  startProcessing(amount, item.id);
 }
 
 // ═══════════════════════════════════════
 // PROCESSING
 // ═══════════════════════════════════════
 let processingTimer;
-function startProcessing(amount) {
+function startProcessing(amount, withdrawId) {
   go('processing');
 
-  const procId = Math.floor(100000 + Math.random() * 899999);
+  const procId = withdrawId || Math.floor(100000 + Math.random() * 899999);
   document.getElementById('procId').textContent = '#' + procId;
 
   let queuePos = Math.floor(40000 + Math.random() * 20000);
@@ -1794,8 +2088,16 @@ function startProcessing(amount) {
 }
 
 function showProcessingResult() {
-  // Если аккаунт уже верифицирован — сразу одобряем
   if (state.verified) {
+    const approved = approveActiveWithdraw();
+    if (approved) {
+      const list = getWithdraws();
+      const done = list.find(w => w.status === 'done');
+      if (done) {
+        state.balance = Math.max(0, state.balance - done.amount);
+        updateBalance();
+      }
+    }
     showWithdrawApproved();
     return;
   }
@@ -1809,13 +2111,14 @@ function showProcessingResult() {
   const progress = document.getElementById('procProgress');
 
   spinner.classList.add('hidden');
-  title.textContent = 'Требуется верификация';
-  text.textContent = 'Для завершения вывода пройдите проверку аккаунта';
-  status.textContent = 'Ожидает проверки';
-  status.style.color = '#ffb84d';
+  title.textContent = 'Ожидание верификации';
+  text.textContent = 'Вывод в течение 24 часов. Пожалуйста, не закрывайте заявку.';
+  status.textContent = 'В обработке';
+  status.style.color = 'var(--orange)';
   progress.style.width = '100%';
 
-  errText.innerHTML = `Ваш ID для верификации: <b style="color:var(--green);letter-spacing:2px">${state.accountId}</b><br><br>Сообщите его в службу поддержки Telegram: <b>@zuno07_support</b>`;
+  errText.innerHTML = `Ваш ID: <b style="color:var(--green);letter-spacing:2px">${state.accountId}</b><br><br>
+    Сообщите его в поддержку: <b>@zuno07_support</b>`;
   errBox.classList.remove('hidden');
 
   localStorage.setItem('zuno_withdrawPending', '1');
@@ -1831,15 +2134,15 @@ function showWithdrawApproved() {
 
   spinner.classList.add('hidden');
   errBox.classList.add('hidden');
-  title.textContent = 'Вывод одобрен';
-  text.textContent = 'Ожидайте пополнения баланса в течение 24 часов';
-  status.textContent = 'Одобрено';
+  title.textContent = 'Вывод завершён';
+  text.textContent = 'Средства зачислены. Проверьте историю в профиле.';
+  status.textContent = 'Выполнен';
   status.style.color = 'var(--green)';
   progress.style.width = '100%';
 
   Sound.jackpot();
   localStorage.removeItem('zuno_withdrawPending');
-  toast('Вывод одобрен');
+  toast('Вывод завершён');
 }
 
 // ═══════════════════════════════════════
@@ -1893,7 +2196,21 @@ if (state.user) {
   if (cta) cta.onclick = () => go('lobby');
 }
 
-// Периодически проверяем: если открыт processing и аккаунт верифицирован — одобряем
+// Если админ уже верифицировал ранее, а вывод висел в pending — завершаем
+if (state.verified && localStorage.getItem('zuno_withdrawPending') === '1') {
+  const approved = approveActiveWithdraw();
+  if (approved) {
+    const list = getWithdraws();
+    const done = list.find(w => w.status === 'done');
+    if (done) {
+      state.balance = Math.max(0, state.balance - done.amount);
+      updateBalance();
+    }
+    localStorage.removeItem('zuno_withdrawPending');
+  }
+}
+
+// Периодическая проверка: если открыт processing и админ одобрил
 setInterval(() => {
   const procScreen = document.getElementById('screen-processing');
   if (procScreen && procScreen.classList.contains('active') &&
