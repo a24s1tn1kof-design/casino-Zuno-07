@@ -78,15 +78,17 @@
   }
   .balance-pill svg { color: var(--green); }
   .balance-pill b { color: var(--green); }
-  .btn-icon {
-    width: 40px; height: 40px; border-radius: 12px;
+  .sound-toggle {
+    width: 40px; height: 40px;
+    border-radius: 12px;
     background: rgba(255,255,255,0.05);
     border: 1px solid var(--line);
     display: flex; align-items: center; justify-content: center;
     color: var(--muted);
     transition: all 0.15s;
   }
-  .btn-icon:hover { color: var(--green); border-color: rgba(0,255,178,0.3); }
+  .sound-toggle.on { color: var(--green); border-color: rgba(0,255,178,0.3); }
+  .sound-toggle:hover { color: var(--green); }
 
   /* ─── SCREENS ─── */
   .screen { display: none; flex: 1; animation: fadeIn 0.3s ease; }
@@ -277,186 +279,170 @@
     margin-top: 16px; letter-spacing: 1.5px; font-weight: 600;
   }
 
-  /* ─── FORM ─── */
-  .form-card {
+  /* ─── REGISTER ─── */
+  .register-wrap { max-width: 460px; margin: 0 auto; padding-top: 20px; }
+  .register-card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(0,255,178,0.15);
     border-radius: 24px;
-    padding: 32px 28px;
-    max-width: 480px;
-    margin: 0 auto;
+    padding: 36px 28px;
+    box-shadow: 0 0 60px rgba(0,255,178,0.08);
   }
-  .balance-box {
-    background: rgba(0,255,178,0.08);
-    border: 1px solid rgba(0,255,178,0.2);
-    border-radius: 14px;
-    padding: 16px 20px;
-    margin-bottom: 24px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .balance-box span { color: var(--muted); font-size: 13px; }
-  .balance-box b {
-    color: var(--green); font-size: 20px; font-weight: 800;
-    font-variant-numeric: tabular-nums;
-  }
-  label {
-    display: block; font-size: 12px; font-weight: 600;
-    color: var(--muted); margin-bottom: 8px;
-    letter-spacing: 0.8px; text-transform: uppercase;
-  }
-  input[type=text], input[type=tel], input[type=password] {
-    width: 100%;
-    padding: 14px 16px;
-    font-size: 15px;
-    background: rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 12px;
-    color: var(--text);
-    margin-bottom: 18px;
-    outline: none;
-    transition: border 0.15s;
-  }
-  input:focus { border-color: var(--green); }
-  input::placeholder { color: rgba(255,255,255,0.25); }
-  .methods { display: flex; gap: 10px; margin-bottom: 20px; }
-  .method {
-    flex: 1; padding: 16px 10px;
-    text-align: center;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px;
-    color: var(--muted);
-    transition: all 0.15s;
-    cursor: pointer;
-  }
-  .method svg { display: block; margin: 0 auto 6px; }
-  .method span { font-size: 12px; font-weight: 600; }
-  .method.active {
-    border-color: var(--green);
-    color: var(--green);
-    background: rgba(0,255,178,0.08);
-  }
-  .submit-btn {
-    width: 100%;
-    padding: 16px;
-    font-size: 15px; font-weight: 800; letter-spacing: 0.5px;
-    background: linear-gradient(90deg, var(--green), var(--green-2));
-    color: var(--bg-0);
-    border-radius: 12px;
-    margin-top: 10px;
-    transition: all 0.2s;
-  }
-  .submit-btn:hover { transform: translateY(-2px); }
-  .row-2 { display: flex; gap: 10px; }
-  .row-2 > div { flex: 1; }
-
-  /* ─── PROCESSING ─── */
-  .processing {
-    text-align: center;
-    padding: 40px 0;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .spinner {
-    width: 72px; height: 72px;
-    margin: 0 auto 24px;
-    border: 3px solid rgba(0,255,178,0.15);
-    border-top-color: var(--green);
-    border-radius: 50%;
-    animation: spin 0.9s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .processing h2 { font-size: 22px; margin-bottom: 10px; font-weight: 700; }
-  .processing p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
-  .queue-box {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--line);
+  .register-bonus {
+    background: linear-gradient(135deg, rgba(0,255,178,0.12), rgba(124,58,237,0.12));
+    border: 1px solid rgba(0,255,178,0.3);
     border-radius: 16px;
     padding: 20px;
-    margin-bottom: 16px;
+    text-align: center;
+    margin-bottom: 24px;
   }
-  .queue-row {
-    display: flex; justify-content: space-between;
-    padding: 10px 0;
-    font-size: 14px;
+  .register-bonus .lbl {
+    color: var(--muted); font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 8px; font-weight: 600;
   }
-  .queue-row + .queue-row { border-top: 1px solid var(--line); }
-  .queue-row span { color: var(--muted); }
-  .queue-row b { font-variant-numeric: tabular-nums; }
-  .progress {
-    height: 6px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 100px;
-    overflow: hidden;
-    margin-top: 16px;
+  .register-bonus .val {
+    font-size: 36px; font-weight: 900;
+    color: var(--green);
+    text-shadow: 0 0 40px rgba(0,255,178,0.5);
+    font-variant-numeric: tabular-nums;
   }
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--green), var(--purple));
-    border-radius: 100px;
-    transition: width 0.5s ease;
-    box-shadow: 0 0 20px rgba(0,255,178,0.5);
+  .register-bonus .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+  /* ─── ROULETTE ─── */
+  .roulette-table {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,178,0.2);
+    border-radius: 24px;
+    padding: 28px 20px;
+    text-align: center;
   }
-  .error-box {
-    background: rgba(255,77,109,0.08);
-    border: 1px solid rgba(255,77,109,0.3);
+  .roulette-wheel-wrap { position: relative; margin-bottom: 24px; padding-top: 10px; }
+  .roulette-wheel {
+    width: 220px; height: 220px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(
+      #ff4d6d 0deg 18deg, #111827 18deg 36deg,
+      #ff4d6d 36deg 54deg, #111827 54deg 72deg,
+      #ff4d6d 72deg 90deg, #111827 90deg 108deg,
+      #ff4d6d 108deg 126deg, #111827 126deg 144deg,
+      #ff4d6d 144deg 162deg, #111827 162deg 180deg,
+      #ff4d6d 180deg 198deg, #111827 198deg 216deg,
+      #ff4d6d 216deg 234deg, #111827 234deg 252deg,
+      #ff4d6d 252deg 270deg, #111827 270deg 288deg,
+      #ff4d6d 288deg 306deg, #111827 306deg 324deg,
+      #ff4d6d 324deg 342deg, #111827 342deg 360deg
+    );
+    position: relative;
+    box-shadow: 0 0 60px rgba(0,255,178,0.2), inset 0 0 40px rgba(0,0,0,0.6);
+    transition: transform 4s cubic-bezier(0.15, 0.9, 0.3, 1);
+  }
+  .roulette-wheel::after {
+    content: ''; position: absolute; inset: 30px;
+    background: var(--bg-1); border-radius: 50%;
+    border: 2px solid rgba(0,255,178,0.3);
+  }
+  .roulette-pointer {
+    position: absolute; top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 20px solid var(--green);
+    z-index: 5;
+    filter: drop-shadow(0 0 10px rgba(0,255,178,0.8));
+  }
+  .bet-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+  .bet-btn {
+    flex: 1; padding: 18px;
     border-radius: 14px;
-    padding: 16px 20px;
-    margin-bottom: 20px;
-    display: flex; align-items: flex-start; gap: 12px;
-    text-align: left;
+    font-size: 15px; font-weight: 800;
+    border: 2px solid;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
   }
-  .error-box svg { color: var(--red); flex-shrink: 0; margin-top: 2px; }
-  .error-box div { font-size: 13px; color: #ffb3c1; line-height: 1.5; }
-  .btn-ghost {
-    padding: 14px 28px;
+  .bet-btn.red { color: var(--red); border-color: var(--red); background: rgba(255,77,109,0.08); }
+  .bet-btn.black { color: #fff; border-color: #444; background: rgba(255,255,255,0.05); }
+  .bet-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  .bet-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ─── CRASH ─── */
+  .crash-panel {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,178,0.2);
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+  }
+  .crash-canvas {
+    width: 100%; height: 240px;
+    background: linear-gradient(180deg, #0a0e1a, #06080f);
+    border-radius: 16px;
     border: 1px solid var(--line);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .crash-canvas canvas { width: 100%; height: 100%; display: block; }
+  .crash-multiplier {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 56px; font-weight: 900;
+    color: var(--green);
+    text-shadow: 0 0 40px rgba(0,255,178,0.6);
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .crash-multiplier.crashed { color: var(--red); text-shadow: 0 0 40px rgba(255,77,109,0.6); }
+  .crash-controls { display: flex; gap: 10px; }
+
+  /* ─── DICE ─── */
+  .dice-panel {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,178,0.2);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .dice-display { display: flex; gap: 16px; justify-content: center; margin-bottom: 28px; }
+  .die {
+    width: 84px; height: 84px;
+    background: linear-gradient(180deg, #1a1f3a, #0f1424);
+    border: 2px solid rgba(0,255,178,0.3);
+    border-radius: 16px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    padding: 12px; gap: 4px;
+    transition: border-color 0.3s;
+  }
+  .die.rolling { animation: dieShake 0.15s linear infinite; }
+  @keyframes dieShake {
+    0%,100% { transform: rotate(-4deg); }
+    50% { transform: rotate(4deg); }
+  }
+  .die.win { border-color: var(--green); box-shadow: 0 0 30px rgba(0,255,178,0.5); }
+  .pip { background: var(--green); border-radius: 50%; opacity: 0; }
+  .pip.on { opacity: 1; }
+  .dice-choices { display: flex; gap: 8px; margin-bottom: 20px; }
+  .dice-choice {
+    flex: 1; padding: 14px 8px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
     color: var(--muted);
-    font-size: 14px; font-weight: 600;
+    font-weight: 700; font-size: 13px;
     transition: all 0.15s;
-    cursor: pointer;
   }
-  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
-
-  /* ─── TOAST ─── */
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: rgba(20,26,42,0.95);
-    border: 1px solid rgba(0,255,178,0.3);
-    border-radius: 14px;
-    padding: 14px 22px;
-    font-size: 14px; font-weight: 600;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    z-index: 1000;
-    transition: transform 0.3s ease;
-    display: flex; align-items: center; gap: 10px;
-    backdrop-filter: blur(20px);
+  .dice-choice.active {
+    border-color: var(--green); color: var(--green);
+    background: rgba(0,255,178,0.1);
   }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.error { border-color: rgba(255,77,109,0.4); }
-  .toast svg { flex-shrink: 0; }
-
-  /* ─── MOBILE ─── */
-  @media (max-width: 480px) {
-    .nav { padding: 14px 16px; }
-    .logo { font-size: 18px; }
-    .balance-pill { padding: 7px 12px; font-size: 13px; }
-    .reel { width: 78px; height: 78px; }
-    .reel svg { width: 40px; height: 40px; }
-    .reels { gap: 8px; }
-    .form-card { padding: 24px 20px; }
-    .container { padding: 20px 16px 80px; }
-  }
-
-  /* ─── UTIL ─── */
-  .hidden { display: none !important; }
-  .mono { font-variant-numeric: tabular-nums; }
 </style>
 </head>
 <body>
-<!-- ═══ NAV ═══ -->
+ <!-- ═══ NAV ═══ -->
 <nav class="nav">
   <div class="logo" onclick="go('home')">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-linejoin="round">
@@ -479,6 +465,13 @@
       <b id="navBalance">5 000</b>
       <span style="color:var(--muted);font-weight:500">₽</span>
     </div>
+    <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Звук">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+        <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+        <path d="M19 5a9 9 0 0 1 0 14"/>
+      </svg>
+    </button>
   </div>
 </nav>
 
@@ -488,7 +481,7 @@
     <section class="hero">
       <h1>Играй. Побеждай.<br><span class="grad">Выводи средства.</span></h1>
       <p>Более 200 игр, моментальные выплаты, поддержка 24/7. Бонус 5 000 ₽ за регистрацию.</p>
-      <button class="cta" onclick="go('lobby')">
+      <button class="cta" onclick="go('register')">
         Начать играть
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M13 6l6 6-6 6"/>
@@ -535,6 +528,35 @@
   </div>
 </div>
 
+<!-- ═══ SCREEN: REGISTER ═══ -->
+<div class="screen" id="screen-register">
+  <div class="container">
+    <div class="register-wrap">
+      <div class="register-card">
+        <div class="page-title" style="font-size:24px;text-align:center">Регистрация</div>
+        <div class="page-sub" style="text-align:center">Создайте аккаунт за 10 секунд</div>
+
+        <div class="register-bonus">
+          <div class="lbl">Приветственный бонус</div>
+          <div class="val">5 000 ₽</div>
+          <div class="hint">Зачисляется сразу после регистрации</div>
+        </div>
+
+        <label>Имя</label>
+        <input type="text" id="regName" placeholder="Ваше имя">
+
+        <label>Телефон</label>
+        <input type="tel" id="regPhone" placeholder="+7 (___) ___-__-__">
+
+        <label>E-mail</label>
+        <input type="text" id="regEmail" placeholder="you@mail.ru">
+
+        <button class="submit-btn" onclick="submitRegister()">Создать аккаунт</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ SCREEN: LOBBY ═══ -->
 <div class="screen" id="screen-lobby">
   <div class="container">
@@ -554,7 +576,7 @@
         <p>Классические автоматы, выигрыш до x20</p>
       </button>
 
-      <button class="game-card" onclick="toast('Игра скоро появится','info')">
+      <button class="game-card" onclick="go('roulette')">
         <div class="game-card-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="9"/>
@@ -565,7 +587,7 @@
         <p>Красное или чёрное — удвой ставку</p>
       </button>
 
-      <button class="game-card" onclick="toast('Игра скоро появится','info')">
+      <button class="game-card" onclick="go('crash')">
         <div class="game-card-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 17l6-6 4 4 8-8"/>
@@ -576,7 +598,7 @@
         <p>Успей забрать до взрыва</p>
       </button>
 
-      <button class="game-card" onclick="toast('Игра скоро появится','info')">
+      <button class="game-card" onclick="go('dice')">
         <div class="game-card-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="3" width="18" height="18" rx="3"/>
@@ -597,10 +619,7 @@
 <!-- ═══ SCREEN: SLOTS ═══ -->
 <div class="screen" id="screen-slots">
   <div class="container">
-    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">
-      ← Назад в лобби
-    </button>
-
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад в лобби</button>
     <div class="machine">
       <div class="reels">
         <div class="reel" id="r1"></div>
@@ -610,9 +629,63 @@
       <button class="spin-btn" id="spinBtn" onclick="spinSlots()">КРУТИТЬ · 100 ₽</button>
       <div class="bet-info">СТАВКА 100 ₽ · МАКС ВЫИГРЫШ x20</div>
     </div>
-
     <div style="text-align:center;margin-top:24px">
       <button class="btn-ghost" onclick="go('withdraw')">Вывести средства</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: ROULETTE ═══ -->
+<div class="screen" id="screen-roulette">
+  <div class="container">
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад в лобби</button>
+    <div class="roulette-table">
+      <div class="roulette-wheel-wrap">
+        <div class="roulette-pointer"></div>
+        <div class="roulette-wheel" id="rouletteWheel"></div>
+      </div>
+      <div class="bet-buttons">
+        <button class="bet-btn red" id="betRed" onclick="spinRoulette('red')">КРАСНОЕ · x2</button>
+        <button class="bet-btn black" id="betBlack" onclick="spinRoulette('black')">ЧЁРНОЕ · x2</button>
+      </div>
+      <div class="bet-info">СТАВКА 100 ₽ · 18 КРАСНЫХ · 18 ЧЁРНЫХ · 2 ЗЕРОВЫХ</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: CRASH ═══ -->
+<div class="screen" id="screen-crash">
+  <div class="container">
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад в лобби</button>
+    <div class="crash-panel">
+      <div class="crash-canvas">
+        <canvas id="crashCanvas"></canvas>
+        <div class="crash-multiplier" id="crashMult">1.00x</div>
+      </div>
+      <div class="crash-controls">
+        <button class="submit-btn" id="crashStart" onclick="startCrash()">СТАВКА 100 ₽</button>
+        <button class="submit-btn hidden" id="crashCash" onclick="cashOutCrash()" style="background:linear-gradient(90deg,#00ffb2,#7c3aed);color:#fff">ЗАБРАТЬ</button>
+      </div>
+      <div class="bet-info" id="crashInfo">СТАВКА 100 ₽ · ЗАБЕРИ ДО КРАША</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: DICE ═══ -->
+<div class="screen" id="screen-dice">
+  <div class="container">
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад в лобби</button>
+    <div class="dice-panel">
+      <div class="dice-display">
+        <div class="die" id="die1"></div>
+        <div class="die" id="die2"></div>
+      </div>
+      <div class="dice-choices">
+        <button class="dice-choice active" data-bet="low" onclick="selectDice(this)">МЕНЬШЕ 7 · x2.2</button>
+        <button class="dice-choice" data-bet="seven" onclick="selectDice(this)">РОВНО 7 · x6</button>
+        <button class="dice-choice" data-bet="high" onclick="selectDice(this)">БОЛЬШЕ 7 · x2.2</button>
+      </div>
+      <button class="submit-btn" id="diceRoll" onclick="rollDice()">БРОСИТЬ · 100 ₽</button>
     </div>
   </div>
 </div>
@@ -620,22 +693,16 @@
 <!-- ═══ SCREEN: WITHDRAW ═══ -->
 <div class="screen" id="screen-withdraw">
   <div class="container">
-    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">
-      ← Назад
-    </button>
-
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад</button>
     <div class="form-card">
       <div class="page-title" style="font-size:22px">Вывод средств</div>
       <div class="page-sub">Заявка обрабатывается до 24 часов</div>
-
       <div class="balance-box">
         <span>Доступно к выводу</span>
         <b id="withdrawAvail">0 ₽</b>
       </div>
-
       <label>Сумма вывода</label>
       <input type="text" id="withdrawAmount" placeholder="Введите сумму" inputmode="numeric">
-
       <label>Способ вывода</label>
       <div class="methods">
         <div class="method active" data-method="card" onclick="selectMethod(this)">
@@ -653,27 +720,18 @@
           <span>Телефон</span>
         </div>
       </div>
-
       <div id="cardFields">
         <label>Номер карты</label>
         <input type="text" id="cardNum" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
         <div class="row-2">
-          <div>
-            <label>Срок</label>
-            <input type="text" id="cardExp" placeholder="MM/YY" maxlength="5">
-          </div>
-          <div>
-            <label>CVV</label>
-            <input type="password" id="cardCvv" placeholder="•••" maxlength="3" inputmode="numeric">
-          </div>
+          <div><label>Срок</label><input type="text" id="cardExp" placeholder="MM/YY" maxlength="5"></div>
+          <div><label>CVV</label><input type="password" id="cardCvv" placeholder="•••" maxlength="3" inputmode="numeric"></div>
         </div>
       </div>
-
       <div id="phoneFields" class="hidden">
         <label>Номер телефона</label>
         <input type="tel" id="phoneNum" placeholder="+7 (___) ___-__-__">
       </div>
-
       <button class="submit-btn" onclick="submitWithdraw()">Вывести средства</button>
     </div>
   </div>
@@ -686,25 +744,12 @@
       <div class="spinner" id="procSpinner"></div>
       <h2 id="procTitle">Обработка заявки</h2>
       <p id="procText">Пожалуйста, не закрывайте страницу</p>
-
       <div class="queue-box">
-        <div class="queue-row">
-          <span>Заявка</span>
-          <b id="procId" class="mono">#000000</b>
-        </div>
-        <div class="queue-row">
-          <span>Позиция в очереди</span>
-          <b id="procQueue" class="mono">0</b>
-        </div>
-        <div class="queue-row">
-          <span>Статус</span>
-          <b id="procStatus" style="color:var(--green)">В обработке</b>
-        </div>
-        <div class="progress">
-          <div class="progress-bar" id="procProgress" style="width:0%"></div>
-        </div>
+        <div class="queue-row"><span>Заявка</span><b id="procId" class="mono">#000000</b></div>
+        <div class="queue-row"><span>Позиция в очереди</span><b id="procQueue" class="mono">0</b></div>
+        <div class="queue-row"><span>Статус</span><b id="procStatus" style="color:var(--green)">В обработке</b></div>
+        <div class="progress"><div class="progress-bar" id="procProgress" style="width:0%"></div></div>
       </div>
-
       <div id="procError" class="error-box hidden">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="9"/>
@@ -712,7 +757,6 @@
         </svg>
         <div id="procErrorText"></div>
       </div>
-
       <button class="btn-ghost" onclick="go('withdraw')">Вернуться к выводу</button>
     </div>
   </div>
@@ -726,9 +770,142 @@
   <span id="toastText">Готово</span>
 </div>
 
-<script>
+<style>
+  /* ─── FORM ─── */
+  .form-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,255,178,0.15);
+    border-radius: 24px;
+    padding: 32px 28px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .balance-box {
+    background: rgba(0,255,178,0.08);
+    border: 1px solid rgba(0,255,178,0.2);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .balance-box span { color: var(--muted); font-size: 13px; }
+  .balance-box b { color: var(--green); font-size: 20px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--muted); margin-bottom: 8px;
+    letter-spacing: 0.8px; text-transform: uppercase;
+  }
+  input[type=text], input[type=tel], input[type=password] {
+    width: 100%; padding: 14px 16px; font-size: 15px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; color: var(--text);
+    margin-bottom: 18px; outline: none; transition: border 0.15s;
+  }
+  input:focus { border-color: var(--green); }
+  input::placeholder { color: rgba(255,255,255,0.25); }
+  .methods { display: flex; gap: 10px; margin-bottom: 20px; }
+  .method {
+    flex: 1; padding: 16px 10px; text-align: center;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; color: var(--muted);
+    transition: all 0.15s; cursor: pointer;
+  }
+  .method svg { display: block; margin: 0 auto 6px; }
+  .method span { font-size: 12px; font-weight: 600; }
+  .method.active { border-color: var(--green); color: var(--green); background: rgba(0,255,178,0.08); }
+  .submit-btn {
+    width: 100%; padding: 16px;
+    font-size: 15px; font-weight: 800; letter-spacing: 0.5px;
+    background: linear-gradient(90deg, var(--green), var(--green-2));
+    color: var(--bg-0); border-radius: 12px; margin-top: 10px;
+    transition: all 0.2s;
+  }
+  .submit-btn:hover { transform: translateY(-2px); }
+  .row-2 { display: flex; gap: 10px; }
+  .row-2 > div { flex: 1; }
+
+  /* ─── PROCESSING ─── */
+  .processing { text-align: center; padding: 40px 0; max-width: 480px; margin: 0 auto; }
+  .spinner {
+    width: 72px; height: 72px; margin: 0 auto 24px;
+    border: 3px solid rgba(0,255,178,0.15);
+    border-top-color: var(--green);
+    border-radius: 50%; animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .processing h2 { font-size: 22px; margin-bottom: 10px; font-weight: 700; }
+  .processing p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .queue-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 16px; padding: 20px; margin-bottom: 16px;
+  }
+  .queue-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 14px; }
+  .queue-row + .queue-row { border-top: 1px solid var(--line); }
+  .queue-row span { color: var(--muted); }
+  .queue-row b { font-variant-numeric: tabular-nums; }
+  .progress { height: 6px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; margin-top: 16px; }
+  .progress-bar {
+    height: 100%; background: linear-gradient(90deg, var(--green), var(--purple));
+    border-radius: 100px; transition: width 0.5s ease;
+    box-shadow: 0 0 20px rgba(0,255,178,0.5);
+  }
+  .error-box {
+    background: rgba(255,77,109,0.08);
+    border: 1px solid rgba(255,77,109,0.3);
+    border-radius: 14px; padding: 16px 20px; margin-bottom: 20px;
+    display: flex; align-items: flex-start; gap: 12px; text-align: left;
+  }
+  .error-box svg { color: var(--red); flex-shrink: 0; margin-top: 2px; }
+  .error-box div { font-size: 13px; color: #ffb3c1; line-height: 1.5; }
+  .btn-ghost {
+    padding: 14px 28px; border: 1px solid var(--line);
+    border-radius: 12px; color: var(--muted);
+    font-size: 14px; font-weight: 600; transition: all 0.15s; cursor: pointer;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(20,26,42,0.95);
+    border: 1px solid rgba(0,255,178,0.3);
+    border-radius: 14px; padding: 14px 22px;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    z-index: 1000; transition: transform 0.3s ease;
+    display: flex; align-items: center; gap: 10px;
+    backdrop-filter: blur(20px);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { border-color: rgba(255,77,109,0.4); }
+  .toast svg { flex-shrink: 0; }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 480px) {
+    .nav { padding: 14px 16px; }
+    .logo { font-size: 18px; }
+    .balance-pill { padding: 7px 12px; font-size: 13px; }
+    .reel { width: 78px; height: 78px; }
+    .reel svg { width: 40px; height: 40px; }
+    .reels { gap: 8px; }
+    .form-card { padding: 24px 20px; }
+    .container { padding: 20px 16px 80px; }
+    .roulette-wheel { width: 180px; height: 180px; }
+    .die { width: 70px; height: 70px; padding: 10px; }
+    .crash-multiplier { font-size: 42px; }
+  }
+
+  /* ─── UTIL ─── */
+  .hidden { display: none !important; }
+  .mono { font-variant-numeric: tabular-nums; }
+       </style>
+         <script>
 /* ═══════════════════════════════════════
-   ZUNO 07 — app logic
+   ZUNO 07 — app logic (часть 3а)
    ═══════════════════════════════════════ */
 
 // ─── STATE ───
@@ -749,12 +926,62 @@ const ICONS = {
 };
 const KEYS = Object.keys(ICONS);
 
+// ═══════════════════════════════════════
+// SOUND — Web Audio API
+// ═══════════════════════════════════════
+const Sound = (() => {
+  let ctx = null;
+  let enabled = localStorage.getItem('zuno_sound') !== 'off';
+
+  function ensure() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+
+  function tone(freq, duration, type = 'sine', vol = 0.08) {
+    if (!enabled) return;
+    try {
+      const c = ensure();
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(vol, c.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + duration);
+      osc.connect(gain).connect(c.destination);
+      osc.start();
+      osc.stop(c.currentTime + duration);
+    } catch (e) {}
+  }
+
+  return {
+    click:   () => tone(800, 0.05, 'square', 0.04),
+    spin:    () => tone(300, 0.08, 'sawtooth', 0.03),
+    win:     () => { tone(660, 0.15); setTimeout(() => tone(880, 0.2), 100); setTimeout(() => tone(1100, 0.3), 220); },
+    jackpot: () => { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.25, 'sine', 0.1), i * 100)); },
+    lose:    () => { tone(220, 0.2, 'sawtooth', 0.05); setTimeout(() => tone(150, 0.3, 'sawtooth', 0.05), 150); },
+    roll:    () => tone(400 + Math.random() * 200, 0.04, 'square', 0.03),
+    crash:   () => { tone(120, 0.5, 'sawtooth', 0.1); setTimeout(() => tone(80, 0.6, 'sawtooth', 0.1), 300); },
+    cash:    () => { tone(880, 0.1); setTimeout(() => tone(1320, 0.15), 80); },
+    toggle:  (on) => { enabled = on; localStorage.setItem('zuno_sound', on ? 'on' : 'off'); if (on) tone(880, 0.1); }
+  };
+})();
+
+function toggleSound() {
+  const on = localStorage.getItem('zuno_sound') !== 'off';
+  Sound.toggle(!on);
+  const btn = document.getElementById('soundToggle');
+  btn.classList.toggle('on', !on);
+}
+
 // ─── NAVIGATION ───
 function go(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
   window.scrollTo(0, 0);
   if (screen === 'withdraw') updateWithdrawScreen();
+  if (screen === 'crash') setTimeout(resizeCrashCanvas, 50);
 }
 
 // ─── BALANCE ───
@@ -777,18 +1004,60 @@ function toast(text, type = 'success') {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// ─── SLOTS ───
-function setReelIcon(el, key) {
-  el.innerHTML = ICONS[key];
-  el.dataset.key = key;
-}
-function randomKey() {
-  return KEYS[Math.floor(Math.random() * KEYS.length)];
-}
-function initReels() {
-  ['r1', 'r2', 'r3'].forEach((id, i) => {
-    setReelIcon(document.getElementById(id), KEYS[i % KEYS.length]);
+// ─── FLASH ───
+function showFlash(text) {
+  const el = document.createElement('div');
+  el.textContent = text;
+  el.style.cssText = `
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(40px, 8vw, 72px); font-weight: 900;
+    color: var(--green);
+    text-shadow: 0 0 60px rgba(0,255,178,0.8);
+    pointer-events: none; z-index: 999;
+    transition: all 0.9s ease;
+  `;
+  document.body.appendChild(el);
+  requestAnimationFrame(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translate(-50%, -80%) scale(1.3)';
   });
+  setTimeout(() => el.remove(), 1000);
+}
+
+// ═══════════════════════════════════════
+// REGISTER
+// ═══════════════════════════════════════
+function submitRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+
+  if (!name || name.length < 2) { toast('Введите имя', 'error'); return; }
+  if (!phone || phone.replace(/\D/g, '').length < 10) { toast('Введите корректный телефон', 'error'); return; }
+  if (!email || !email.includes('@')) { toast('Введите корректный e-mail', 'error'); return; }
+
+  if (!localStorage.getItem('zuno_registered')) {
+    state.balance += 5000;
+    localStorage.setItem('zuno_registered', '1');
+    localStorage.setItem('zuno_user', JSON.stringify({ name, phone, email }));
+    updateBalance();
+    Sound.jackpot();
+    toast('Аккаунт создан! Бонус 5 000 ₽ зачислен');
+  } else {
+    toast('Добро пожаловать, ' + name);
+  }
+
+  setTimeout(() => go('lobby'), 700);
+}
+
+// ═══════════════════════════════════════
+// SLOTS
+// ═══════════════════════════════════════
+function setReelIcon(el, key) { el.innerHTML = ICONS[key]; el.dataset.key = key; }
+function randomKey() { return KEYS[Math.floor(Math.random() * KEYS.length)]; }
+function initReels() {
+  ['r1', 'r2', 'r3'].forEach((id, i) => setReelIcon(document.getElementById(id), KEYS[i % KEYS.length]));
 }
 
 function spinSlots() {
@@ -798,15 +1067,18 @@ function spinSlots() {
   state.spinBusy = true;
   state.balance -= 100;
   updateBalance();
+  Sound.click();
 
   const reels = ['r1', 'r2', 'r3'].map(id => document.getElementById(id));
   const btn = document.getElementById('spinBtn');
   btn.disabled = true;
-
   reels.forEach(r => { r.classList.add('spinning'); r.classList.remove('win'); });
 
+  let tickCount = 0;
   const interval = setInterval(() => {
     reels.forEach(r => setReelIcon(r, randomKey()));
+    if (tickCount % 3 === 0) Sound.spin();
+    tickCount++;
   }, 80);
 
   setTimeout(() => {
@@ -832,52 +1104,349 @@ function spinSlots() {
       state.balance += 2000;
       updateBalance();
       reels.forEach(r => r.classList.add('win'));
+      Sound.jackpot();
       showFlash('+2 000 ₽');
       toast('Джекпот! +2 000 ₽');
     } else if (twoSame) {
       state.balance += 200;
       updateBalance();
+      Sound.win();
       showFlash('+200 ₽');
       toast('Выигрыш +200 ₽');
+    } else {
+      Sound.lose();
     }
 
     state.spinBusy = false;
     btn.disabled = false;
   }, 1200);
 }
+        // ═══════════════════════════════════════
+// ROULETTE
+// ═══════════════════════════════════════
+let rouletteBusy = false;
+let rouletteRotation = 0;
 
-function showFlash(text) {
-  const el = document.createElement('div');
-  el.textContent = text;
-  el.style.cssText = `
-    position: fixed; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: clamp(40px, 8vw, 72px); font-weight: 900;
-    color: var(--green);
-    text-shadow: 0 0 60px rgba(0,255,178,0.8);
-    pointer-events: none; z-index: 999;
-    transition: all 0.9s ease;
-  `;
-  document.body.appendChild(el);
-  requestAnimationFrame(() => {
-    el.style.opacity = '0';
-    el.style.transform = 'translate(-50%, -80%) scale(1.3)';
-  });
-  setTimeout(() => el.remove(), 1000);
+function spinRoulette(bet) {
+  if (rouletteBusy) return;
+  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
+
+  rouletteBusy = true;
+  state.balance -= 100;
+  updateBalance();
+  Sound.click();
+
+  const wheel = document.getElementById('rouletteWheel');
+  const betRed = document.getElementById('betRed');
+  const betBlack = document.getElementById('betBlack');
+  betRed.disabled = true;
+  betBlack.disabled = true;
+
+  const spins = parseInt(localStorage.getItem('zuno_rouletteSpins') || '0');
+  let result;
+  if (spins < 2) {
+    result = bet;
+  } else if (Math.random() < 0.55) {
+    result = bet;
+  } else if (Math.random() < 0.9) {
+    result = bet === 'red' ? 'black' : 'red';
+  } else {
+    result = 'zero';
+  }
+  localStorage.setItem('zuno_rouletteSpins', spins + 1);
+
+  rouletteRotation += 360 * (5 + Math.random() * 3) + Math.random() * 360;
+  wheel.style.transform = `rotate(${rouletteRotation}deg)`;
+
+  let ticks = 0;
+  const tickInterval = setInterval(() => {
+    Sound.roll();
+    ticks++;
+    if (ticks > 40) clearInterval(tickInterval);
+  }, 90);
+
+  setTimeout(() => {
+    clearInterval(tickInterval);
+    rouletteBusy = false;
+    betRed.disabled = false;
+    betBlack.disabled = false;
+
+    if (result === 'zero') {
+      Sound.lose();
+      toast('Зеро! Ставка сгорела', 'error');
+    } else if (result === bet) {
+      state.balance += 200;
+      updateBalance();
+      Sound.win();
+      showFlash('+200 ₽');
+      toast('Победа! +200 ₽');
+    } else {
+      Sound.lose();
+      toast('Не повезло, попробуйте ещё', 'error');
+    }
+  }, 4100);
 }
 
-// ─── WITHDRAW ───
+// ═══════════════════════════════════════
+// CRASH
+// ═══════════════════════════════════════
+let crashState = {
+  running: false,
+  crashed: false,
+  multiplier: 1.00,
+  crashAt: 0,
+  raf: null,
+  startTime: 0,
+  bet: 0,
+};
+
+const crashCanvas = document.getElementById('crashCanvas');
+const crashCtx = crashCanvas ? crashCanvas.getContext('2d') : null;
+
+function resizeCrashCanvas() {
+  if (!crashCanvas || !crashCtx) return;
+  const rect = crashCanvas.parentElement.getBoundingClientRect();
+  if (rect.width === 0) return;
+  crashCanvas.width = rect.width * 2;
+  crashCanvas.height = rect.height * 2;
+  crashCtx.setTransform(1, 0, 0, 1, 0, 0);
+  crashCtx.scale(2, 2);
+}
+window.addEventListener('resize', resizeCrashCanvas);
+
+function drawCrashCurve(progress) {
+  if (!crashCtx) return;
+  const w = crashCanvas.width / 2;
+  const h = crashCanvas.height / 2;
+  crashCtx.clearRect(0, 0, w, h);
+
+  crashCtx.strokeStyle = 'rgba(255,255,255,0.05)';
+  crashCtx.lineWidth = 1;
+  for (let i = 1; i < 5; i++) {
+    crashCtx.beginPath();
+    crashCtx.moveTo(0, (h / 5) * i);
+    crashCtx.lineTo(w, (h / 5) * i);
+    crashCtx.stroke();
+  }
+
+  const pts = 60;
+  const drawPts = Math.max(1, Math.floor(pts * progress));
+  crashCtx.beginPath();
+  crashCtx.strokeStyle = crashState.crashed ? '#ff4d6d' : '#00ffb2';
+  crashCtx.lineWidth = 3;
+  crashCtx.shadowColor = crashState.crashed ? 'rgba(255,77,109,0.8)' : 'rgba(0,255,178,0.8)';
+  crashCtx.shadowBlur = 15;
+
+  for (let i = 0; i <= drawPts; i++) {
+    const t = i / pts;
+    const x = t * w;
+    const y = h - Math.pow(t, 1.8) * h * 0.85 - 10;
+    if (i === 0) crashCtx.moveTo(x, y);
+    else crashCtx.lineTo(x, y);
+  }
+  crashCtx.stroke();
+  crashCtx.shadowBlur = 0;
+
+  const t = progress;
+  const x = t * w;
+  const y = h - Math.pow(t, 1.8) * h * 0.85 - 10;
+  crashCtx.beginPath();
+  crashCtx.fillStyle = crashState.crashed ? '#ff4d6d' : '#00ffb2';
+  crashCtx.arc(x, y, 6, 0, Math.PI * 2);
+  crashCtx.fill();
+}
+
+function startCrash() {
+  if (crashState.running) return;
+  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
+
+  state.balance -= 100;
+  updateBalance();
+  Sound.click();
+  resizeCrashCanvas();
+
+  crashState.running = true;
+  crashState.crashed = false;
+  crashState.multiplier = 1.00;
+  crashState.bet = 100;
+  crashState.startTime = performance.now();
+
+  const runs = parseInt(localStorage.getItem('zuno_crashRuns') || '0');
+  if (runs < 3) {
+    crashState.crashAt = 2.5 + Math.random() * 3;
+  } else {
+    crashState.crashAt = 1.1 + Math.random() * 4;
+  }
+  localStorage.setItem('zuno_crashRuns', runs + 1);
+
+  document.getElementById('crashStart').classList.add('hidden');
+  document.getElementById('crashCash').classList.remove('hidden');
+  document.getElementById('crashMult').classList.remove('crashed');
+  document.getElementById('crashInfo').textContent = 'ЗАБЕРИ ДО КРАША';
+
+  const mult = document.getElementById('crashMult');
+
+  function loop(now) {
+    if (!crashState.running) return;
+
+    const elapsed = (now - crashState.startTime) / 1000;
+    crashState.multiplier = 1 + Math.pow(elapsed, 1.5) * 0.6;
+
+    if (crashState.multiplier >= crashState.crashAt) {
+      crashState.multiplier = crashState.crashAt;
+      crashState.crashed = true;
+      crashState.running = false;
+      mult.textContent = crashState.multiplier.toFixed(2) + 'x';
+      mult.classList.add('crashed');
+      drawCrashCurve(1);
+      Sound.crash();
+
+      document.getElementById('crashCash').classList.add('hidden');
+      document.getElementById('crashStart').classList.remove('hidden');
+      document.getElementById('crashInfo').textContent = 'КРАШ! Ставка сгорела';
+      return;
+    }
+
+    mult.textContent = crashState.multiplier.toFixed(2) + 'x';
+    drawCrashCurve(Math.min(elapsed / 5, 1));
+    crashState.raf = requestAnimationFrame(loop);
+  }
+
+  crashState.raf = requestAnimationFrame(loop);
+}
+
+function cashOutCrash() {
+  if (!crashState.running) return;
+  crashState.running = false;
+  cancelAnimationFrame(crashState.raf);
+
+  const win = Math.floor(crashState.bet * crashState.multiplier);
+  state.balance += win;
+  updateBalance();
+  Sound.cash();
+  showFlash('+' + win.toLocaleString('ru-RU') + ' ₽');
+  toast('Забрано: ' + win.toLocaleString('ru-RU') + ' ₽');
+
+  document.getElementById('crashCash').classList.add('hidden');
+  document.getElementById('crashStart').classList.remove('hidden');
+  document.getElementById('crashInfo').textContent = 'СТАВКА 100 ₽ · ЗАБЕРИ ДО КРАША';
+}
+
+// ═══════════════════════════════════════
+// DICE
+// ═══════════════════════════════════════
+let diceBet = 'low';
+let diceBusy = false;
+
+const PIP_POSITIONS = {
+  1: [4],
+  2: [0, 8],
+  3: [0, 4, 8],
+  4: [0, 2, 6, 8],
+  5: [0, 2, 4, 6, 8],
+  6: [0, 2, 3, 5, 6, 8],
+};
+
+function renderDie(dieEl, value) {
+  let html = '';
+  const pips = PIP_POSITIONS[value] || [];
+  for (let i = 0; i < 9; i++) {
+    html += `<div class="pip ${pips.includes(i) ? 'on' : ''}"></div>`;
+  }
+  dieEl.innerHTML = html;
+}
+
+function selectDice(el) {
+  document.querySelectorAll('.dice-choice').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  diceBet = el.dataset.bet;
+  Sound.click();
+}
+
+function rollDice() {
+  if (diceBusy) return;
+  if (state.balance < 100) { toast('Недостаточно средств', 'error'); return; }
+
+  diceBusy = true;
+  state.balance -= 100;
+  updateBalance();
+  Sound.click();
+
+  const die1 = document.getElementById('die1');
+  const die2 = document.getElementById('die2');
+  const btn = document.getElementById('diceRoll');
+  btn.disabled = true;
+  die1.classList.add('rolling');
+  die2.classList.add('rolling');
+  die1.classList.remove('win');
+  die2.classList.remove('win');
+
+  const rollInterval = setInterval(() => {
+    renderDie(die1, 1 + Math.floor(Math.random() * 6));
+    renderDie(die2, 1 + Math.floor(Math.random() * 6));
+    Sound.roll();
+  }, 80);
+
+  setTimeout(() => {
+    clearInterval(rollInterval);
+    die1.classList.remove('rolling');
+    die2.classList.remove('rolling');
+
+    const rolls = parseInt(localStorage.getItem('zuno_diceRolls') || '0');
+    let v1, v2;
+
+    if (rolls < 2) {
+      if (diceBet === 'low') { v1 = 1 + Math.floor(Math.random() * 3); v2 = 1 + Math.floor(Math.random() * 2); }
+      else if (diceBet === 'high') { v1 = 4 + Math.floor(Math.random() * 3); v2 = 4 + Math.floor(Math.random() * 3); }
+      else { v1 = 3; v2 = 4; }
+    } else {
+      v1 = 1 + Math.floor(Math.random() * 6);
+      v2 = 1 + Math.floor(Math.random() * 6);
+    }
+    localStorage.setItem('zuno_diceRolls', rolls + 1);
+
+    renderDie(die1, v1);
+    renderDie(die2, v2);
+
+    const sum = v1 + v2;
+    let won = false;
+    let payout = 0;
+
+    if (diceBet === 'low' && sum < 7) { won = true; payout = 220; }
+    else if (diceBet === 'high' && sum > 7) { won = true; payout = 220; }
+    else if (diceBet === 'seven' && sum === 7) { won = true; payout = 600; }
+
+    if (won) {
+      state.balance += payout;
+      updateBalance();
+      die1.classList.add('win');
+      die2.classList.add('win');
+      if (diceBet === 'seven') Sound.jackpot(); else Sound.win();
+      showFlash('+' + payout + ' ₽');
+      toast('Выигрыш +' + payout + ' ₽');
+    } else {
+      Sound.lose();
+      toast('Сумма ' + sum + '. Не угадали', 'error');
+    }
+
+    diceBusy = false;
+    btn.disabled = false;
+  }, 1000);
+}
+
+// ═══════════════════════════════════════
+// WITHDRAW
+// ═══════════════════════════════════════
 function selectMethod(el) {
   document.querySelectorAll('.method').forEach(m => m.classList.remove('active'));
   el.classList.add('active');
   const m = el.dataset.method;
   document.getElementById('cardFields').classList.toggle('hidden', m !== 'card');
   document.getElementById('phoneFields').classList.toggle('hidden', m !== 'phone');
+  Sound.click();
 }
 
-function updateWithdrawScreen() {
-  updateBalance();
-}
+function updateWithdrawScreen() { updateBalance(); }
 
 function submitWithdraw() {
   const amountInput = document.getElementById('withdrawAmount');
@@ -886,10 +1455,13 @@ function submitWithdraw() {
   if (!amount || amount < 1000) { toast('Минимальная сумма — 1 000 ₽', 'error'); return; }
   if (amount > state.balance) { toast('Недостаточно средств', 'error'); return; }
 
+  Sound.click();
   startProcessing(amount);
 }
 
-// ─── PROCESSING ───
+// ═══════════════════════════════════════
+// PROCESSING
+// ═══════════════════════════════════════
 let processingTimer;
 function startProcessing(amount) {
   go('processing');
@@ -906,7 +1478,6 @@ function startProcessing(amount) {
   const status = document.getElementById('procStatus');
   const progress = document.getElementById('procProgress');
   const errBox = document.getElementById('procError');
-  const errText = document.getElementById('procErrorText');
 
   spinner.classList.remove('hidden');
   errBox.classList.add('hidden');
@@ -955,7 +1526,9 @@ function showProcessingError() {
   errBox.classList.remove('hidden');
 }
 
-// ─── JACKPOT ANIMATION ───
+// ═══════════════════════════════════════
+// JACKPOT ANIMATION
+// ═══════════════════════════════════════
 let jackpotValue = 1247832;
 setInterval(() => {
   jackpotValue += Math.floor(Math.random() * 500);
@@ -963,7 +1536,9 @@ setInterval(() => {
   if (el) el.textContent = jackpotValue.toLocaleString('ru-RU') + ' ₽';
 }, 1500);
 
-// ─── INPUT MASKS ───
+// ═══════════════════════════════════════
+// INPUT MASKS
+// ═══════════════════════════════════════
 document.addEventListener('input', (e) => {
   if (e.target.id === 'cardNum') {
     let v = e.target.value.replace(/\D/g, '').slice(0, 16);
@@ -979,9 +1554,19 @@ document.addEventListener('input', (e) => {
   }
 });
 
-// ─── INIT ───
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
 initReels();
 updateBalance();
+
+renderDie(document.getElementById('die1'), 1);
+renderDie(document.getElementById('die2'), 1);
+
+const soundBtn = document.getElementById('soundToggle');
+if (soundBtn) soundBtn.classList.toggle('on', localStorage.getItem('zuno_sound') !== 'off');
+
+window.addEventListener('load', () => setTimeout(resizeCrashCanvas, 100));
 </script>
 
 </body>
