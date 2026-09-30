@@ -12,7 +12,6 @@
   :root {
     --bg-0: #06080f;
     --bg-1: #0a0e1a;
-    --bg-2: #111827;
     --line: rgba(255,255,255,0.07);
     --text: #e8ecf5;
     --muted: #7b86a3;
@@ -57,6 +56,7 @@
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
     cursor: pointer;
+    user-select: none;
   }
   .logo svg { flex-shrink: 0; }
   .logo-badge {
@@ -78,7 +78,7 @@
   }
   .balance-pill svg { color: var(--green); }
   .balance-pill b { color: var(--green); }
-  .sound-toggle {
+  .icon-btn {
     width: 40px; height: 40px;
     border-radius: 12px;
     background: rgba(255,255,255,0.05);
@@ -87,8 +87,8 @@
     color: var(--muted);
     transition: all 0.15s;
   }
-  .sound-toggle.on { color: var(--green); border-color: rgba(0,255,178,0.3); }
-  .sound-toggle:hover { color: var(--green); }
+  .icon-btn:hover { color: var(--green); border-color: rgba(0,255,178,0.3); }
+  .icon-btn.on { color: var(--green); border-color: rgba(0,255,178,0.3); }
 
   /* ─── SCREENS ─── */
   .screen { display: none; flex: 1; animation: fadeIn 0.3s ease; }
@@ -176,7 +176,6 @@
     border: 1px solid var(--line);
     border-radius: 18px;
     padding: 24px;
-    transition: border 0.2s;
   }
   .feature:hover { border-color: rgba(0,255,178,0.2); }
   .feature-icon {
@@ -415,7 +414,6 @@
     display: grid; grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     padding: 12px; gap: 4px;
-    transition: border-color 0.3s;
   }
   .die.rolling { animation: dieShake 0.15s linear infinite; }
   @keyframes dieShake {
@@ -444,7 +442,7 @@
 <body>
  <!-- ═══ NAV ═══ -->
 <nav class="nav">
-  <div class="logo" onclick="go('home')">
+  <div class="logo" id="logoBtn" onclick="logoClick()">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="url(#lg)" stroke-width="2.5" stroke-linejoin="round">
       <defs>
         <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
@@ -465,11 +463,22 @@
       <b id="navBalance">5 000</b>
       <span style="color:var(--muted);font-weight:500">₽</span>
     </div>
-    <button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Звук">
+    <button class="icon-btn" id="soundToggle" onclick="toggleSound()" title="Звук">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M11 5L6 9H2v6h4l5 4V5z"/>
         <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
         <path d="M19 5a9 9 0 0 1 0 14"/>
+      </svg>
+    </button>
+    <button class="icon-btn" onclick="go('profile')" title="Профиль">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
+      </svg>
+    </button>
+    <button class="icon-btn" onclick="go('withdraw')" title="Вывод">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
       </svg>
     </button>
   </div>
@@ -481,8 +490,8 @@
     <section class="hero">
       <h1>Играй. Побеждай.<br><span class="grad">Выводи средства.</span></h1>
       <p>Более 200 игр, моментальные выплаты, поддержка 24/7. Бонус 5 000 ₽ за регистрацию.</p>
-      <button class="cta" onclick="go('register')">
-        Начать играть
+      <button class="cta" id="homeCta" onclick="go('register')">
+        <span id="homeCtaText">Начать играть</span>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M13 6l6 6-6 6"/>
         </svg>
@@ -553,6 +562,55 @@
 
         <button class="submit-btn" onclick="submitRegister()">Создать аккаунт</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: PROFILE ═══ -->
+<div class="screen" id="screen-profile">
+  <div class="container">
+    <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад</button>
+    <div class="form-card">
+      <div class="page-title" style="font-size:22px">Профиль</div>
+      <div class="page-sub">Ваши данные и статус аккаунта</div>
+
+      <div class="profile-grid">
+        <div class="profile-row">
+          <span>ID аккаунта</span>
+          <b id="profId" class="mono" style="letter-spacing:2px;color:var(--green)">—</b>
+        </div>
+        <div class="profile-row">
+          <span>Статус</span>
+          <b id="profStatus">—</b>
+        </div>
+        <div class="profile-row">
+          <span>Имя</span>
+          <b id="profName">—</b>
+        </div>
+        <div class="profile-row">
+          <span>Телефон</span>
+          <b id="profPhone">—</b>
+        </div>
+        <div class="profile-row">
+          <span>Баланс</span>
+          <b id="profBalance" style="color:var(--green)">—</b>
+        </div>
+      </div>
+
+      <div id="noAccount" class="hidden">
+        <div class="error-box" style="margin-bottom:20px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 8v5M12 16h.01"/>
+          </svg>
+          <div>Аккаунт не создан. Пройдите регистрацию.</div>
+        </div>
+        <button class="submit-btn" onclick="go('register')">Зарегистрироваться</button>
+      </div>
+
+      <p id="accountInfo" class="profile-hint">
+        Сообщите этот ID в поддержку для прохождения верификации
+      </p>
     </div>
   </div>
 </div>
@@ -629,13 +687,9 @@
       <button class="spin-btn" id="spinBtn" onclick="spinSlots()">КРУТИТЬ · 100 ₽</button>
       <div class="bet-info">СТАВКА 100 ₽ · МАКС ВЫИГРЫШ x20</div>
     </div>
-    <div style="text-align:center;margin-top:24px">
-      <button class="btn-ghost" onclick="go('withdraw')">Вывести средства</button>
-    </div>
   </div>
-</div>
-
-<!-- ═══ SCREEN: ROULETTE ═══ -->
+ </div>
+ <!-- ═══ SCREEN: ROULETTE ═══ -->
 <div class="screen" id="screen-roulette">
   <div class="container">
     <button class="btn-ghost" onclick="go('lobby')" style="margin-bottom:20px">← Назад в лобби</button>
@@ -762,6 +816,42 @@
   </div>
 </div>
 
+<!-- ═══ SCREEN: ADMIN ═══ -->
+<div class="screen" id="screen-admin">
+  <div class="container">
+    <button class="btn-ghost" onclick="go('home')" style="margin-bottom:20px">← Выйти из админки</button>
+    <div class="form-card" style="max-width:600px">
+      <div class="page-title" style="font-size:22px;color:var(--green)">Админ-панель</div>
+      <div class="page-sub">Управление верификацией аккаунтов</div>
+
+      <div class="balance-box">
+        <span>Ваш ID</span>
+        <b id="adminMyId" class="mono" style="font-size:16px;letter-spacing:2px">—</b>
+      </div>
+
+      <label>ID аккаунта клиента</label>
+      <input type="text" id="adminVerifyId" placeholder="00000000" maxlength="8" inputmode="numeric" style="text-align:center;letter-spacing:6px;font-size:22px;font-weight:800">
+
+      <div class="admin-actions">
+        <button class="admin-btn approve" onclick="adminAction('approve')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+          Верифицировать
+        </button>
+        <button class="admin-btn reject" onclick="adminAction('reject')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+          Отклонить
+        </button>
+      </div>
+
+      <div id="adminLog" class="admin-log"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ TOAST ═══ -->
 <div class="toast" id="toast">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5">
@@ -826,6 +916,31 @@
   .row-2 { display: flex; gap: 10px; }
   .row-2 > div { flex: 1; }
 
+  /* ─── PROFILE ─── */
+  .profile-grid {
+    background: rgba(0,255,178,0.04);
+    border: 1px solid rgba(0,255,178,0.15);
+    border-radius: 16px;
+    padding: 4px 20px;
+    margin-bottom: 20px;
+  }
+  .profile-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .profile-row:last-child { border-bottom: none; }
+  .profile-row span { color: var(--muted); }
+  .profile-row b { font-weight: 700; }
+  .profile-hint {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+
   /* ─── PROCESSING ─── */
   .processing { text-align: center; padding: 40px 0; max-width: 480px; margin: 0 auto; }
   .spinner {
@@ -867,6 +982,38 @@
   }
   .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
 
+  /* ─── ADMIN ─── */
+  .admin-actions { display: flex; gap: 10px; margin-bottom: 20px; }
+  .admin-btn {
+    flex: 1; padding: 16px 12px;
+    border-radius: 12px;
+    font-weight: 800; font-size: 14px;
+    border: 2px solid;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.15s;
+  }
+  .admin-btn.approve { color: var(--green); border-color: var(--green); background: rgba(0,255,178,0.08); }
+  .admin-btn.reject { color: var(--red); border-color: var(--red); background: rgba(255,77,109,0.08); }
+  .admin-btn:hover { transform: translateY(-2px); }
+  .admin-log {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: ui-monospace, 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--green);
+    max-height: 200px;
+    overflow-y: auto;
+    min-height: 60px;
+  }
+  .admin-log:empty::before {
+    content: 'Журнал пуст';
+    color: var(--muted);
+  }
+  .admin-log div { padding: 4px 0; }
+  .admin-log div.err { color: var(--red); }
+
   /* ─── TOAST ─── */
   .toast {
     position: fixed; bottom: 24px; left: 50%;
@@ -886,9 +1033,10 @@
 
   /* ─── MOBILE ─── */
   @media (max-width: 480px) {
-    .nav { padding: 14px 16px; }
+    .nav { padding: 14px 16px; gap: 8px; }
     .logo { font-size: 18px; }
-    .balance-pill { padding: 7px 12px; font-size: 13px; }
+    .balance-pill { padding: 6px 10px; font-size: 12px; }
+    .icon-btn { width: 34px; height: 34px; }
     .reel { width: 78px; height: 78px; }
     .reel svg { width: 40px; height: 40px; }
     .reels { gap: 8px; }
@@ -899,11 +1047,10 @@
     .crash-multiplier { font-size: 42px; }
   }
 
-  /* ─── UTIL ─── */
   .hidden { display: none !important; }
   .mono { font-variant-numeric: tabular-nums; }
-       </style>
-         <script>
+         </style>
+       <script>
 /* ═══════════════════════════════════════
    ZUNO 07 — app logic (часть 3а)
    ═══════════════════════════════════════ */
@@ -913,7 +1060,16 @@ const state = {
   balance: parseInt(localStorage.getItem('zuno_balance') ?? '5000'),
   spinCount: parseInt(localStorage.getItem('zuno_spinCount') ?? '0'),
   spinBusy: false,
+  user: JSON.parse(localStorage.getItem('zuno_user') || 'null'),
+  verified: localStorage.getItem('zuno_verified') === '1',
+  accountId: localStorage.getItem('zuno_accountId') || null,
 };
+
+// Генерируем уникальный 8-значный ID при первом заходе
+if (!state.accountId) {
+  state.accountId = String(Math.floor(10000000 + Math.random() * 89999999));
+  localStorage.setItem('zuno_accountId', state.accountId);
+}
 
 // ─── ICONS ───
 const ICONS = {
@@ -971,17 +1127,52 @@ const Sound = (() => {
 function toggleSound() {
   const on = localStorage.getItem('zuno_sound') !== 'off';
   Sound.toggle(!on);
-  const btn = document.getElementById('soundToggle');
-  btn.classList.toggle('on', !on);
+  document.getElementById('soundToggle').classList.toggle('on', !on);
 }
 
-// ─── NAVIGATION ───
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
 function go(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
   window.scrollTo(0, 0);
   if (screen === 'withdraw') updateWithdrawScreen();
+  if (screen === 'profile') renderProfile();
+  if (screen === 'admin') renderAdmin();
   if (screen === 'crash') setTimeout(resizeCrashCanvas, 50);
+}
+
+// ═══════════════════════════════════════
+// LOGO CLICKS → ADMIN
+// ═══════════════════════════════════════
+let logoClicks = 0;
+let logoClickTimer = null;
+
+function logoClick() {
+  logoClicks++;
+  clearTimeout(logoClickTimer);
+  logoClickTimer = setTimeout(() => { logoClicks = 0; }, 1500);
+
+  if (logoClicks >= 10) {
+    logoClicks = 0;
+    openAdminLogin();
+  } else {
+    go('home');
+  }
+}
+
+function openAdminLogin() {
+  const pass = prompt('Введите пароль администратора:');
+  if (pass === null) return;
+  if (pass === '2012') {
+    go('admin');
+    Sound.jackpot();
+    toast('Доступ разрешён');
+  } else {
+    Sound.lose();
+    toast('Неверный пароль', 'error');
+  }
 }
 
 // ─── BALANCE ───
@@ -1037,10 +1228,18 @@ function submitRegister() {
   if (!phone || phone.replace(/\D/g, '').length < 10) { toast('Введите корректный телефон', 'error'); return; }
   if (!email || !email.includes('@')) { toast('Введите корректный e-mail', 'error'); return; }
 
+  if (state.user) {
+    toast('С возвращением, ' + state.user.name);
+    setTimeout(() => go('lobby'), 700);
+    return;
+  }
+
+  state.user = { name, phone, email };
+  localStorage.setItem('zuno_user', JSON.stringify(state.user));
+
   if (!localStorage.getItem('zuno_registered')) {
     state.balance += 5000;
     localStorage.setItem('zuno_registered', '1');
-    localStorage.setItem('zuno_user', JSON.stringify({ name, phone, email }));
     updateBalance();
     Sound.jackpot();
     toast('Аккаунт создан! Бонус 5 000 ₽ зачислен');
@@ -1049,6 +1248,92 @@ function submitRegister() {
   }
 
   setTimeout(() => go('lobby'), 700);
+}
+
+// ═══════════════════════════════════════
+// PROFILE
+// ═══════════════════════════════════════
+function renderProfile() {
+  document.getElementById('profId').textContent = state.accountId;
+  document.getElementById('profBalance').textContent = state.balance.toLocaleString('ru-RU') + ' ₽';
+
+  const statusEl = document.getElementById('profStatus');
+  if (state.verified) {
+    statusEl.textContent = 'Верифицирован';
+    statusEl.style.color = 'var(--green)';
+  } else {
+    statusEl.textContent = 'Не верифицирован';
+    statusEl.style.color = 'var(--muted)';
+  }
+
+  const accInfo = document.getElementById('accountInfo');
+  const noAcc = document.getElementById('noAccount');
+
+  if (state.user) {
+    document.getElementById('profName').textContent = state.user.name;
+    document.getElementById('profPhone').textContent = state.user.phone;
+    accInfo.classList.remove('hidden');
+    noAcc.classList.add('hidden');
+  } else {
+    document.getElementById('profName').textContent = '—';
+    document.getElementById('profPhone').textContent = '—';
+    accInfo.classList.add('hidden');
+    noAcc.classList.remove('hidden');
+  }
+}
+
+// ═══════════════════════════════════════
+// ADMIN PANEL
+// ═══════════════════════════════════════
+function renderAdmin() {
+  document.getElementById('adminMyId').textContent = state.accountId;
+}
+
+function adminLog(text, isError = false) {
+  const log = document.getElementById('adminLog');
+  const time = new Date().toLocaleTimeString('ru-RU');
+  const line = document.createElement('div');
+  if (isError) line.className = 'err';
+  line.textContent = `[${time}] ${text}`;
+  log.appendChild(line);
+  log.scrollTop = log.scrollHeight;
+}
+
+function adminAction(action) {
+  const input = document.getElementById('adminVerifyId');
+  const id = input.value.trim();
+
+  if (!/^\d{8}$/.test(id)) {
+    toast('ID должен состоять из 8 цифр', 'error');
+    adminLog('Ошибка: неверный формат ID — ' + (id || '(пусто)'), true);
+    Sound.lose();
+    return;
+  }
+
+  if (action === 'approve') {
+    if (id === state.accountId) {
+      state.verified = true;
+      localStorage.setItem('zuno_verified', '1');
+      adminLog(`✓ Аккаунт ${id} верифицирован`);
+      toast('Аккаунт верифицирован');
+      Sound.win();
+      input.value = '';
+
+      if (localStorage.getItem('zuno_withdrawPending') === '1') {
+        setTimeout(() => showWithdrawApproved(), 300);
+      }
+    } else {
+      adminLog(`✓ Аккаунт ${id} верифицирован`);
+      toast('Аккаунт ' + id + ' верифицирован');
+      Sound.win();
+      input.value = '';
+    }
+  } else {
+    adminLog(`✗ Аккаунт ${id} отклонён`, true);
+    toast('Заявка отклонена', 'error');
+    Sound.lose();
+    input.value = '';
+  }
 }
 
 // ═══════════════════════════════════════
@@ -1121,7 +1406,7 @@ function spinSlots() {
     btn.disabled = false;
   }, 1200);
 }
-        // ═══════════════════════════════════════
+ // ═══════════════════════════════════════
 // ROULETTE
 // ═══════════════════════════════════════
 let rouletteBusy = false;
@@ -1503,27 +1788,58 @@ function startProcessing(amount) {
 
     if (p >= 92) {
       clearInterval(processingTimer);
-      setTimeout(() => showProcessingError(), 900);
+      setTimeout(() => showProcessingResult(), 900);
     }
   }, 500);
 }
 
-function showProcessingError() {
+function showProcessingResult() {
+  // Если аккаунт уже верифицирован — сразу одобряем
+  if (state.verified) {
+    showWithdrawApproved();
+    return;
+  }
+
   const spinner = document.getElementById('procSpinner');
   const title = document.getElementById('procTitle');
   const text = document.getElementById('procText');
   const status = document.getElementById('procStatus');
   const errBox = document.getElementById('procError');
   const errText = document.getElementById('procErrorText');
+  const progress = document.getElementById('procProgress');
 
   spinner.classList.add('hidden');
   title.textContent = 'Требуется верификация';
-  text.textContent = 'Не удалось подтвердить личность получателя';
-  status.textContent = 'Отклонено';
-  status.style.color = 'var(--red)';
+  text.textContent = 'Для завершения вывода пройдите проверку аккаунта';
+  status.textContent = 'Ожидает проверки';
+  status.style.color = '#ffb84d';
+  progress.style.width = '100%';
 
-  errText.textContent = 'Для завершения вывода необходимо пройти верификацию аккаунта. Обратитесь в службу поддержки в Telegram: @zuno07_support';
+  errText.innerHTML = `Ваш ID для верификации: <b style="color:var(--green);letter-spacing:2px">${state.accountId}</b><br><br>Сообщите его в службу поддержки Telegram: <b>@zuno07_support</b>`;
   errBox.classList.remove('hidden');
+
+  localStorage.setItem('zuno_withdrawPending', '1');
+}
+
+function showWithdrawApproved() {
+  const spinner = document.getElementById('procSpinner');
+  const title = document.getElementById('procTitle');
+  const text = document.getElementById('procText');
+  const status = document.getElementById('procStatus');
+  const errBox = document.getElementById('procError');
+  const progress = document.getElementById('procProgress');
+
+  spinner.classList.add('hidden');
+  errBox.classList.add('hidden');
+  title.textContent = 'Вывод одобрен';
+  text.textContent = 'Ожидайте пополнения баланса в течение 24 часов';
+  status.textContent = 'Одобрено';
+  status.style.color = 'var(--green)';
+  progress.style.width = '100%';
+
+  Sound.jackpot();
+  localStorage.removeItem('zuno_withdrawPending');
+  toast('Вывод одобрен');
 }
 
 // ═══════════════════════════════════════
@@ -1552,6 +1868,9 @@ document.addEventListener('input', (e) => {
     let v = e.target.value.replace(/\D/g, '');
     e.target.value = v ? parseInt(v).toLocaleString('ru-RU') : '';
   }
+  if (e.target.id === 'adminVerifyId') {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 8);
+  }
 });
 
 // ═══════════════════════════════════════
@@ -1565,6 +1884,24 @@ renderDie(document.getElementById('die2'), 1);
 
 const soundBtn = document.getElementById('soundToggle');
 if (soundBtn) soundBtn.classList.toggle('on', localStorage.getItem('zuno_sound') !== 'off');
+
+// Если аккаунт уже создан — меняем CTA на главной
+if (state.user) {
+  const ctaText = document.getElementById('homeCtaText');
+  const cta = document.getElementById('homeCta');
+  if (ctaText) ctaText.textContent = 'Продолжить играть';
+  if (cta) cta.onclick = () => go('lobby');
+}
+
+// Периодически проверяем: если открыт processing и аккаунт верифицирован — одобряем
+setInterval(() => {
+  const procScreen = document.getElementById('screen-processing');
+  if (procScreen && procScreen.classList.contains('active') &&
+      localStorage.getItem('zuno_withdrawPending') === '1' &&
+      state.verified) {
+    showWithdrawApproved();
+  }
+}, 1000);
 
 window.addEventListener('load', () => setTimeout(resizeCrashCanvas, 100));
 </script>
